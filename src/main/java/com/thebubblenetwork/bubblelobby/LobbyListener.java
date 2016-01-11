@@ -1,0 +1,65 @@
+package com.thebubblenetwork.bubblelobby;
+
+import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
+
+/**
+ * Copyright Statement
+ * ----------------------
+ * Copyright (C) The Bubble Network, Inc - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Wrote by Jacob Evans <jacobevansminor@gmail.com>, 01 2016
+ *
+ *
+ * Class information
+ * ---------------------
+ * Package: com.thebubblenetwork.bubblelobby
+ * Date-created: 10/01/2016 19:58
+ * Project: BubbleLobby
+ */
+public class LobbyListener implements Listener{
+    public LobbyListener(){
+        BubbleLobby.getInstance().registerListener(this);
+    }
+
+    protected static final String
+    COMPASSNAME1 = ChatColor.BLUE + ">" + ChatColor.AQUA + ChatColor.BOLD.toString() + "Compass" + ChatColor.BLUE + "<",
+    COMPASSNAME2 = ChatColor.BLUE + ">" + ChatColor.WHITE + ChatColor.BOLD.toString() + "Compass" + ChatColor.BLUE + "<";
+
+    protected static final int
+    COMPASSSLOT = 0;
+
+    private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS)
+            .withAmount(1)
+            .withName(COMPASSNAME1)
+            .withLore(ChatColor.GRAY + "Right-click to open up the menu!",ChatColor.GRAY + "You can access any gamemode");
+
+
+    public ItemStackBuilder getCompass() {
+        return compass;
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e){
+        Player p = e.getPlayer();p.setGameMode(GameMode.ADVENTURE);
+        p.setLevel(0);
+        p.setFoodLevel(20);
+        p.setHealth(20);
+        p.getInventory().setArmorContents(new ItemStack[4]);
+        p.getInventory().setContents(generateInventory());
+    }
+
+    public ItemStack[] generateInventory(){
+        ItemStack[] is = new ItemStack[4*9];
+        is[COMPASSSLOT] = compass.build();
+        return is;
+    }
+}
