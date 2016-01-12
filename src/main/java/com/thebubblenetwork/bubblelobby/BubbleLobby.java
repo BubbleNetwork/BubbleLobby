@@ -63,12 +63,17 @@ public class BubbleLobby extends BubblePlugin {
         } catch (Exception e) {
             //Automatic Catch Statement
             e.printStackTrace();
-            getLogger().severe("Error, Properties file incorrect - restarting");
-            new BukkitRunnable() {
-                public void run() {
-                    Bukkit.shutdown();
-                }
-            }.runTask(this);
+            getLogger().severe("Error, Properties file incorrect - disbaling");
+            try {
+                PropertiesFile.generateFresh(CONFIG,
+                        new String[]{"server-id"},
+                        new String[]{"-1"}
+                );
+            } catch (Exception e1) {
+//Automatic Catch Statement
+                e1.printStackTrace();
+            }
+            Bukkit.getPluginManager().disablePlugin(BubbleNetwork.getInstance());
             return;
         }
 
