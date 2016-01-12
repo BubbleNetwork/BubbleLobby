@@ -6,10 +6,14 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
@@ -30,6 +34,7 @@ import org.bukkit.inventory.ItemStack;
  * Project: BubbleLobby
  */
 public class LobbyListener implements Listener{
+
     public LobbyListener(){
         BubbleLobby.getInstance().registerListener(this);
     }
@@ -53,7 +58,8 @@ public class LobbyListener implements Listener{
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
-        Player p = e.getPlayer();p.setGameMode(GameMode.ADVENTURE);
+        Player p = e.getPlayer();
+        p.setGameMode(GameMode.ADVENTURE);
         p.setLevel(0);
         p.setFoodLevel(20);
         p.setHealth(20);
@@ -105,5 +111,20 @@ public class LobbyListener implements Listener{
     @EventHandler
     public void onItemPickup(PlayerPickupItemEvent e){
         e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageEvent e){
+        if(e.getEntity() instanceof Player)e.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerInteract(PlayerInteractEvent e){
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerFoodLevelChange(FoodLevelChangeEvent e){
+        e.setFoodLevel(20);
     }
 }
