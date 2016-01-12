@@ -3,3 +3,8 @@
 *.iml
 idea/*.*
 idea/*
+*.class
+*.MF
+*.jar
+*.class
+target/classes/com/thebubblenetwork/bubblelobby/BubbleLobby$1.class

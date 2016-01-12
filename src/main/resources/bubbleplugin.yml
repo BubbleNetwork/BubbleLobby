@@ -1,5 +1,5 @@
 name: BubbleLobby
-main: com.thebubblenetwork.bubblylobby
+main: com.thebubblenetwork.bubblelobby.BubbleLobby
 priority: 80
 author: "ExtendObject"
 version: 1.0
