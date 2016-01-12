@@ -7,7 +7,11 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -61,5 +65,45 @@ public class LobbyListener implements Listener{
         ItemStack[] is = new ItemStack[4*9];
         is[COMPASSSLOT] = compass.build();
         return is;
+    }
+
+    @EventHandler
+    public void onBlockDamage(BlockDamageEvent e){
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e){
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBlockCanBuild(BlockCanBuildEvent e){
+        e.setBuildable(false);
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent e){
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBlockPlaceMultiple(BlockMultiPlaceEvent e){
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e){
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onItemDrop(PlayerDropItemEvent e){
+        e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onItemPickup(PlayerPickupItemEvent e){
+        e.setCancelled(true);
     }
 }
