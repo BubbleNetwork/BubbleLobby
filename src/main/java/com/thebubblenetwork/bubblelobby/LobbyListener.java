@@ -40,15 +40,14 @@ public class LobbyListener implements Listener{
     }
 
     protected static final String
-    COMPASSNAME1 = ChatColor.BLUE + ">" + ChatColor.AQUA + ChatColor.BOLD.toString() + "Compass" + ChatColor.BLUE + "<",
-    COMPASSNAME2 = ChatColor.BLUE + ">" + ChatColor.WHITE + ChatColor.BOLD.toString() + "Compass" + ChatColor.BLUE + "<";
+    COMPASSNAME = ChatColor.BLUE + ">" + ChatColor.AQUA + ChatColor.BOLD.toString() + "Compass" + ChatColor.BLUE + "<";
 
     protected static final int
     COMPASSSLOT = 0;
 
     private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS)
             .withAmount(1)
-            .withName(COMPASSNAME1)
+            .withName(COMPASSNAME)
             .withLore(ChatColor.GRAY + "Right-click to open up the menu!",ChatColor.GRAY + "You can access any gamemode");
 
 
@@ -121,6 +120,11 @@ public class LobbyListener implements Listener{
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerInteract(PlayerInteractEvent e){
         e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onPlayerInteractMedium(PlayerInteractEvent e){
+        int slot = e.getPlayer().getInventory().getHeldItemSlot();
     }
 
     @EventHandler

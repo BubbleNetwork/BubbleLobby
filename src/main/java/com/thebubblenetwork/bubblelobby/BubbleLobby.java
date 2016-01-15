@@ -1,10 +1,12 @@
 package com.thebubblenetwork.bubblelobby;
 
 import com.thebubblenetwork.api.framework.BubbleNetwork;
+import com.thebubblenetwork.api.framework.messages.Messages;
 import com.thebubblenetwork.api.framework.plugin.BubblePlugin;
 import com.thebubblenetwork.api.framework.util.files.PropertiesFile;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -81,14 +83,21 @@ public class BubbleLobby extends BubblePlugin {
 
 
         new BukkitRunnable(){
-            boolean b = true;
+            int current = 0;
+            final String[] strings = new String[]{
+                    ChatColor.AQUA + ">" + ChatColor.BLUE + ChatColor.BOLD.toString() + "BubbleNetwork" + ChatColor.AQUA + "<",
+                    ChatColor.AQUA + ">>" + ChatColor.BLUE + ChatColor.BOLD.toString() + "BubbleNetwork" + ChatColor.AQUA + "<<",
+                    ChatColor.AQUA + ">>>" + ChatColor.BLUE + ChatColor.BOLD.toString() + "BubbleNetwork" + ChatColor.AQUA + "<<<",
+                    ChatColor.AQUA + ">>" + ChatColor.BLUE + ChatColor.BOLD.toString() + "BubbleNetwork" + ChatColor.AQUA + "<<",
+                    ChatColor.AQUA + ">" + ChatColor.WHITE + ChatColor.BOLD.toString() + "BubbleNetwork" + ChatColor.AQUA + "<",
+                    ChatColor.AQUA + ">>" + ChatColor.WHITE + ChatColor.BOLD.toString() + "BubbleNetwork" + ChatColor.AQUA + "<<",
+                    ChatColor.AQUA + ">>>" + ChatColor.WHITE + ChatColor.BOLD.toString() + "BubbleNetwork" + ChatColor.AQUA + "<<<",
+                    ChatColor.AQUA + ">>" + ChatColor.WHITE + ChatColor.BOLD.toString() + "BubbleNetwork" + ChatColor.AQUA + "<<",
+            };
             public void run() {
-                ItemStackBuilder compass = listener.getCompass();
-                compass.withName(b ? LobbyListener.COMPASSNAME2 : LobbyListener.COMPASSNAME1);
-                for(Player p:Bukkit.getOnlinePlayers()){
-                    p.getInventory().setItem(LobbyListener.COMPASSSLOT,compass.build());
-                }
-                b =! b;
+                Messages.broadcastMessageAction(strings[current]);
+                current++;
+                if(current == strings.length)current = 0;
             }
         }.runTaskTimer(this,5L,5L);
     }
