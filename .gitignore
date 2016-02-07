@@ -1,10 +1,5 @@
-*.name
-*.xml
-*.iml
-*.class
-*.MF
-*.jar
-target/classes/com/thebubblenetwork/bubblelobby/BubbleLobby$1.class
-target/classes/bubbleplugin.yml
-target/*
-*.class
+.idea
+out
+target
+pom.xml
+BubbleLobby.iml

@@ -1,17 +1,11 @@
 package com.thebubblenetwork.bubblelobby;
 
-import com.thebubblenetwork.api.framework.BubbleNetwork;
 import com.thebubblenetwork.api.framework.messages.Messages;
 import com.thebubblenetwork.api.framework.plugin.BubblePlugin;
-import com.thebubblenetwork.api.framework.util.files.PropertiesFile;
-import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
-import java.text.ParseException;
 
 /**
  * Copyright Statement
@@ -30,11 +24,7 @@ import java.text.ParseException;
 */
 
 public class BubbleLobby extends BubblePlugin {
-    private static final File CONFIG = new File("lobby.properties");
     private static BubbleLobby instance;
-
-    private static final String
-    IDPROPERTY = "server-id";
 
     public static BubbleLobby getInstance() {
         return instance;
@@ -44,43 +34,14 @@ public class BubbleLobby extends BubblePlugin {
         BubbleLobby.instance = instance;
     }
 
-    private PropertiesFile file;
-    private Integer id;
-
-    public PropertiesFile getProperties() {
-        return file;
-    }
-
-    public int getId(){
-        return id;
-    }
-
     private LobbyListener listener;
 
     public void onEnable() {
         setInstance(this);
-        try {
-            file = new PropertiesFile(CONFIG);
-            id = getProperties().getNumber(IDPROPERTY).intValue();
-        } catch (Exception e) {
-            //Automatic Catch Statement
-            e.printStackTrace();
-            getLogger().severe("Error, Properties file incorrect - disbaling");
-            try {
-                PropertiesFile.generateFresh(CONFIG,
-                        new String[]{"server-id"},
-                        new String[]{"-1"}
-                );
-            } catch (Exception e1) {
-//Automatic Catch Statement
-                e1.printStackTrace();
-            }
-            Bukkit.getPluginManager().disablePlugin(BubbleNetwork.getInstance());
-            return;
-        }
 
         listener = new LobbyListener();
 
+        registerListener(listener);
 
         new BukkitRunnable(){
             int current = 0;
@@ -105,7 +66,6 @@ public class BubbleLobby extends BubblePlugin {
 
     public void onDisable() {
         setInstance(null);
-        file = null;
         listener = null;
     }
 }

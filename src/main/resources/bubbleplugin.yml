@@ -1,4 +1,4 @@
-name: BubbleLobby
+name: Lobby
 main: com.thebubblenetwork.bubblelobby.BubbleLobby
 priority: 80
 author: "ExtendObject"
