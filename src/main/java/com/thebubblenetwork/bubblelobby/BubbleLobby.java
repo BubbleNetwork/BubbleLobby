@@ -2,6 +2,7 @@ package com.thebubblenetwork.bubblelobby;
 
 import com.thebubblenetwork.api.framework.messages.Messages;
 import com.thebubblenetwork.api.framework.plugin.BubblePlugin;
+import com.thebubblenetwork.api.framework.util.mc.scoreboard.BubbleBoardAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -45,6 +46,7 @@ public class BubbleLobby extends BubblePlugin {
 
         new BukkitRunnable(){
             int current = 0;
+            boolean title = false;
             final String[] strings = new String[]{
                     ChatColor.AQUA + ">" + ChatColor.BLUE + ChatColor.BOLD.toString() + "BubbleNetwork" + ChatColor.AQUA + "<",
                     ChatColor.AQUA + ">>" + ChatColor.BLUE + ChatColor.BOLD.toString() + "BubbleNetwork" + ChatColor.AQUA + "<<",
@@ -59,6 +61,8 @@ public class BubbleLobby extends BubblePlugin {
                 Messages.broadcastMessageAction(strings[current]);
                 current++;
                 if(current == strings.length)current = 0;
+
+                title =! title;
             }
         }.runTaskTimer(this,5L,5L);
     }
