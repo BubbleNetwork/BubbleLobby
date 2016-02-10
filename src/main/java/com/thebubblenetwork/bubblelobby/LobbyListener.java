@@ -12,10 +12,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -58,12 +55,18 @@ public class LobbyListener implements Listener{
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
+        LobbyBoard.createBoard(p);
         p.setGameMode(GameMode.ADVENTURE);
         p.setLevel(0);
         p.setFoodLevel(20);
         p.setHealth(20);
         p.getInventory().setArmorContents(new ItemStack[4]);
         p.getInventory().setContents(generateInventory());
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e){
+        LobbyBoard.removeBoard(e.getPlayer().getUniqueId());
     }
 
     public ItemStack[] generateInventory(){
@@ -125,6 +128,11 @@ public class LobbyListener implements Listener{
     @EventHandler
     public void onPlayerInteractMedium(PlayerInteractEvent e){
         int slot = e.getPlayer().getInventory().getHeldItemSlot();
+        if(e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK){
+            if(slot == 0){
+
+            }
+        }
     }
 
     @EventHandler
