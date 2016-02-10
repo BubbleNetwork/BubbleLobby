@@ -1,5 +1,6 @@
 .idea
 out
 target
+target/*
 pom.xml
-BubbleLobby.iml
+*.iml
