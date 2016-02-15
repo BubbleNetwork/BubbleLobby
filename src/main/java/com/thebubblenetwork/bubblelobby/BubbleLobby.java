@@ -1,15 +1,22 @@
 package com.thebubblenetwork.bubblelobby;
 
-import com.thebubblenetwork.api.framework.messages.Messages;
+import com.google.common.collect.ImmutableMap;
+import com.thebubblenetwork.api.framework.BubbleNetwork;
 import com.thebubblenetwork.api.framework.plugin.BubblePlugin;
-import com.thebubblenetwork.api.framework.util.mc.scoreboard.BubbleBoardAPI;
-import com.thebubblenetwork.api.framework.util.mc.scoreboard.ObjectiveUpdate;
-import org.bukkit.ChatColor;
+import com.thebubblenetwork.api.framework.util.mc.chat.ChatColorAppend;
+import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
+import com.thebubblenetwork.api.global.bubblepackets.messaging.messages.handshake.JoinableUpdate;
+import com.thebubblenetwork.api.global.sql.SQLUtil;
+import com.thebubblenetwork.api.global.type.ServerType;
+import com.thebubblenetwork.api.global.type.ServerTypeObject;
+import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
 
 import java.io.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Copyright Statement
@@ -39,158 +46,120 @@ public class BubbleLobby extends BubblePlugin {
     }
 
     private LobbyListener listener;
+    private BubbleNetwork network;
+    private BubbleCompass compass;
+
+    public void onLoad(){
+        network = BubbleNetwork.getInstance();
+    }
 
     public void onEnable() {
         setInstance(this);
 
         listener = new LobbyListener();
+        Set<CompassItem> items = new HashSet<>();
 
-        registerListener(listener);
-
-        new BukkitRunnable(){
-            int current = 0;
-            boolean title = false;
-            boolean run;
-            final String[] strings = new String[]{
-                    "W",
-                    "We",
-                    "Wel",
-                    "Welc",
-                    "Welco",
-                    "Welcom",
-                    "Welcome ",
-                    "Welcome t",
-                    "Welcome to",
-                    "Welcome to ",
-                    "Welcome to B",
-                    "Welcome to Bu",
-                    "Welcome to Bub",
-                    "Welcome to Bubb",
-                    "Welcome to Bubbl",
-                    "Welcome to Bubble",
-                    "Welcome to BubbleN",
-                    "Welcome to BubbleNe",
-                    "Welcome to BubbleNet",
-                    "Welcome to BubbleNetw",
-                    "Welcome to BubbleNetwo",
-                    "Welcome to BubbleNetwor",
-                    "Welcome to BubbleNetwork",
-                    "Welcome to §bBubbleNetwork",
-                    "Welcome to BubbleNetwork",
-                    "Welcome to §bBubbleNetwork",
-                    "Welcome to BubbleNetwork",
-                    "Welcome to §bBubbleNetwork",
-                    "Welcome to BubbleNetwork",
-                    "",
-                    "",
-                    "§bBubbleNetwork",
-                    ">§bBubbleNetwork§r<",
-                    "->§bBubbleNetwork§r<-",
-                    "-->§bBubbleNetwork§r<--",
-                    "--->§bBubbleNetwork§r<---",
-                    "---->§bBubbleNetwork§r<----",
-                    "----->§bBubbleNetwork§r<-----",
-                    "---->§bBubbleNetwork§r<----",
-                    "--->§bBubbleNetwork§r<---",
-                    "->§bBubbleNetwork§r<-",
-                    ">§bBubbleNetwork§r<",
-                    "§bBubbleNetwork",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "T_",
-                    "Th_",
-                    "The_",
-                    "The _",
-                    "The n_",
-                    "The ne_",
-                    "The net_",
-                    "The netw_",
-                    "The netwo_",
-                    "The networ_",
-                    "The network_",
-                    "The network _",
-                    "The network o_",
-                    "The network of_",
-                    "The network of _",
-                    "The network of b_",
-                    "The network of bu_",
-                    "The network of bub_",
-                    "The network of bubb_",
-                    "The network of bubbl_",
-                    "The network of bubbly_",
-                    "The network of bubbly _",
-                    "The network of bubbly f_",
-                    "The network of bubbly fu_",
-                    "The network of bubbly fun_",
-                    "The network of bubbly fun!",
-                    "The network of bubbly §bfun§r!",
-                    "The network of bubbly fun!",
-                    "The network of bubbly §bfun§r!",
-                    "The network of bubbly fun!",
-                    "The network of bubbly §bfun§r!",
-                    "",
-                    "",
-                    "§7",
-                    "§7p§r_",
-                    "§7pl§r_",
-                    "§7pla§r_",
-                    "§7play§r_",
-                    "§7play.§r_",
-                    "§7play.t§r_",
-                    "§7play.th§r_",
-                    "§7play.the§r_",
-                    "§7play.theb§r_",
-                    "§7play.thebu§r_",
-                    "§7play.thebub§r_",
-                    "§7play.thebubb§r_",
-                    "§7play.thebubbl§r_",
-                    "§7play.thebubble§r_",
-                    "§7play.thebubblen§r_",
-                    "§7play.thebubblene§r_",
-                    "§7play.thebubblenet§r_",
-                    "§7play.thebubblenetw§r_",
-                    "§7play.thebubblenetwo§r_",
-                    "§7play.thebubblenetwor§r_",
-                    "§7play.thebubblenetwork§r_",
-                    "§7play.thebubblenetwork.§r_",
-                    "§7play.thebubblenetwork.c§r_",
-                    "§7play.thebubblenetwork.co§r_",
-                    "§7play.thebubblenetwork.com",
-                    "§7play.thebubblenetwork.com",
-                    "§6play.thebubblenetwork.com",
-                    "§7play.thebubblenetwork.com",
-                    "§6play.thebubblenetwork.com",
-                    "§7play.thebubblenetwork.com",
-                    "§6play.thebubblenetwork.com",
-                    "",
-                    "",
-
-            };
-            public void run() {
-                Messages.broadcastMessageAction(strings[current]);
-                current++;
-                if(current == strings.length)current = 0;
-                if(run) {
-                    for (LobbyBoard board : LobbyBoard.map.values()) {
-                        board.getObject().update(new ObjectiveUpdate(DisplaySlot.SIDEBAR) {
-                            @Override
-                            public void update(Objective objective) {
-                                objective.setDisplayName(title ? LobbyBoard.TITLE1 : LobbyBoard.TITLE2);
-                            }
-                        });
-                    }
-                    title = !title;
-                }
-                run =! run;
+        try{
+            if(!SQLUtil.tableExists(network.getConnection(),"compass_items")){
+                getNetwork().logInfo("Creating compass-item DB");
+                SQLUtil.createTable(network.getConnection(),"compass_items",new ImmutableMap.Builder<String, Map.Entry<SQLUtil.SQLDataType, Integer>>()
+                        .put("name",new AbstractMap.SimpleImmutableEntry<>(SQLUtil.SQLDataType.TEXT,32))
+                        .put("lore",new AbstractMap.SimpleImmutableEntry<>(SQLUtil.SQLDataType.TEXT,-1))
+                        .put("id",new AbstractMap.SimpleImmutableEntry<>(SQLUtil.SQLDataType.INT,3))
+                        .put("data",new AbstractMap.SimpleImmutableEntry<>(SQLUtil.SQLDataType.INT,1))
+                        .put("servertype",new AbstractMap.SimpleImmutableEntry<>(SQLUtil.SQLDataType.TEXT,32))
+                        .put("slot",new AbstractMap.SimpleImmutableEntry<>(SQLUtil.SQLDataType.INT,2))
+                        .build());
+                getNetwork().endSetup("Could not find compass items DB");
             }
-        }.runTaskTimer(this,1L,5L);
+            ResultSet set = SQLUtil.query(network.getConnection(),"compass_items","*",new SQLUtil.Where("1"));
+            while(set.next()){
+                String name = ChatColorAppend.translate(set.getString("name"));
+                String[] lore = ChatColorAppend.translate(set.getString("lore")).split(",");
+                int materialid = set.getInt("id");
+                int data = set.getInt("data");
+                ServerType type;
+                try {
+                    type = ServerTypeObject.getType(set.getString("servertype"));
+                }
+                catch (IllegalArgumentException e){
+                    getNetwork().logSevere(e.getMessage());
+                    continue;
+                }
+                int slot = set.getInt("slot");
+                if(slot < -1 || slot > 54){
+                    getNetwork().logSevere("Slot: " + String.valueOf(slot) + " is invalid");
+                    continue;
+                }
+                Material m = Material.getMaterial(materialid);
+                if(m == null){
+                    getNetwork().logSevere("Invalid material ID: " + String.valueOf(materialid));
+                    continue;
+                }
+                getNetwork().logInfo("Registering new compassitem with slot: " + String.valueOf(slot));
+                items.add(new CompassItem(slot,type,new ItemStackBuilder(m).withName(name).withLore(lore).withData(data)));
+            }
+            set.close();
+        }
+        catch (SQLException|ClassNotFoundException e){
+            getNetwork().logSevere(e.getMessage());
+            getNetwork().endSetup("Could not load compass items");
+        }
+
+        compass = new BubbleCompass(items);
+
+        registerListener(getListener());
+
+
+        new BukkitRunnable() {
+            public void run() {
+                getNetwork().logInfo("Setting joinable...");
+                try {
+                    getNetwork().getPacketHub().sendMessage(getNetwork().getProxy(),new JoinableUpdate(true));
+                } catch (IOException e) {
+                    getNetwork().logSevere(e.getMessage());
+                    getNetwork().endSetup("Could not set joinable");
+                }
+            }
+        }.runTaskAsynchronously(this);
     }
 
-
     public void onDisable() {
+        try {
+            getNetwork().getPacketHub().sendMessage(getNetwork().getProxy(), new JoinableUpdate(false));
+        } catch (IOException e) {
+            getNetwork().logSevere(e.getMessage());
+            getNetwork().endSetup("Could not set joinable");
+        }
         setInstance(null);
         listener = null;
+        network = null;
+    }
+
+    public LobbyListener getListener() {
+        return listener;
+    }
+
+    public BubbleCompass getCompass() {
+        return compass;
+    }
+
+    public BubbleNetwork getNetwork() {
+        return network;
+    }
+
+    public int getVersion() {
+        return 0;
+    }
+
+    public long finishUp() {
+        getNetwork().logInfo("Finishing up lobby");
+        try {
+            getNetwork().getPacketHub().sendMessage(getNetwork().getProxy(),new JoinableUpdate(false));
+        } catch (IOException e) {
+            getNetwork().logSevere(e.getMessage());
+            getNetwork().endSetup("Could not set joinable");
+        }
+        return 60;
     }
 }

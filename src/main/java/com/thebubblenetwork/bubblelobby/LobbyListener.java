@@ -36,15 +36,12 @@ public class LobbyListener implements Listener{
         BubbleLobby.getInstance().registerListener(this);
     }
 
-    protected static final String
-    COMPASSNAME = ChatColor.BLUE + ">" + ChatColor.AQUA + ChatColor.BOLD.toString() + "Compass" + ChatColor.BLUE + "<";
-
     protected static final int
     COMPASSSLOT = 0;
 
     private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS)
             .withAmount(1)
-            .withName(COMPASSNAME)
+            .withName(ChatColor.AQUA + "Compass")
             .withLore(ChatColor.GRAY + "Right-click to open up the menu!",ChatColor.GRAY + "You can access any gamemode");
 
 
@@ -130,7 +127,7 @@ public class LobbyListener implements Listener{
         int slot = e.getPlayer().getInventory().getHeldItemSlot();
         if(e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK){
             if(slot == 0){
-
+                BubbleLobby.getInstance().getCompass().show(e.getPlayer());
             }
         }
     }
