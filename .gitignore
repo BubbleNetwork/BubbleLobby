@@ -4,3 +4,5 @@ target
 target/*
 pom.xml
 *.iml
+*.MF
+META-INF

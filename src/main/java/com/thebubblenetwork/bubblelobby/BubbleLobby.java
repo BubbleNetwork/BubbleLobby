@@ -117,7 +117,7 @@ public class BubbleLobby extends BubblePlugin {
                 try {
                     getNetwork().getPacketHub().sendMessage(getNetwork().getProxy(),new JoinableUpdate(true));
                 } catch (IOException e) {
-                    getNetwork().logSevere(e.getMessage());
+                        getNetwork().logSevere(e.getMessage());
                     getNetwork().endSetup("Could not set joinable");
                 }
             }
