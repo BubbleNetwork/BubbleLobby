@@ -1,9 +1,7 @@
 package com.thebubblenetwork.bubblelobby;
 
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -59,6 +57,7 @@ public class LobbyListener implements Listener{
         p.setHealth(20);
         p.getInventory().setArmorContents(new ItemStack[4]);
         p.getInventory().setContents(generateInventory());
+        p.teleport(new Location(Bukkit.getWorld("world"),0.5,97,0.5));
     }
 
     @EventHandler

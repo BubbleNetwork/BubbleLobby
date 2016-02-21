@@ -8,7 +8,6 @@ import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
 import com.thebubblenetwork.api.global.bubblepackets.messaging.messages.handshake.JoinableUpdate;
 import com.thebubblenetwork.api.global.sql.SQLUtil;
 import com.thebubblenetwork.api.global.type.ServerType;
-import com.thebubblenetwork.api.global.type.ServerTypeObject;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -16,7 +15,6 @@ import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Copyright Statement
@@ -80,7 +78,7 @@ public class BubbleLobby extends BubblePlugin {
                 int data = set.getInt("data");
                 ServerType type;
                 try {
-                    type = ServerTypeObject.getType(set.getString("servertype"));
+                    type = ServerType.getType(set.getString("servertype"));
                 }
                 catch (IllegalArgumentException e){
                     getNetwork().logSevere(e.getMessage());

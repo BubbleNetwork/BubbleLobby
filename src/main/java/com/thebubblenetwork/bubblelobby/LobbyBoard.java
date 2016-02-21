@@ -21,7 +21,7 @@ public class LobbyBoard extends SingleBubbleBoard{
     public static final String
     TITLE = ChatColor.BLUE + "[" + ChatColor.AQUA + ChatColor.BOLD.toString() + "BubbleNetwork" + ChatColor.BLUE + "]";
 
-    protected static Map<UUID,LobbyBoard> map = new HashMap<UUID, LobbyBoard>();
+    protected static Map<UUID,LobbyBoard> map = new HashMap<>();
 
     public static BoardPreset PRESET = new BoardPreset("Lobby",
             new BoardModuleBuilder("Nickname",12).withDisplay(ChatColor.BLUE + ChatColor.BOLD.toString() + "You").build(),
@@ -45,7 +45,7 @@ public class LobbyBoard extends SingleBubbleBoard{
             board.getScore(this,getModule("NicknameValue")).getTeam().setSuffix(ChatColorAppend.wipe(player.getNickName()));
             board.getScore(this,getModule("RankValue")).getTeam().setSuffix(player.getRank().isDefault() ? "None ": player.getRank().getName());
             board.getScore(this,getModule("TokenValue")).getTeam().setSuffix(String.valueOf(player.getTokens()));
-            board.getScore(this,getModule("HubValue")).getTeam().setSuffix(BubbleNetwork.getInstance().getType().getPrefix() + String.valueOf(BubbleNetwork.getInstance().getId()));
+            board.getScore(this,getModule("HubValue")).getTeam().setSuffix(BubbleNetwork.getInstance().getType().getName() + "-" + String.valueOf(BubbleNetwork.getInstance().getId()));
             Team t = board.getScore(this,getModule("SiteValue")).getTeam();
             t.setPrefix(ChatColor.GRAY + "play.");
             t.setSuffix(".com");
