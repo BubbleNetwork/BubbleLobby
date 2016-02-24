@@ -33,8 +33,8 @@ public class LobbyBoard extends SingleBubbleBoard{
             new BoardModuleBuilder("Token",6).withDisplay(ChatColor.BLUE + ChatColor.BOLD.toString() + "Tokens").build(),
             new BoardModuleBuilder("TokenValue",5).withRandomDisplay().build(),
             new BoardModuleBuilder("Spacer4",4).withRandomDisplay().build(),
-            new BoardModuleBuilder("Hub",3).withDisplay(ChatColor.BLUE + ChatColor.BOLD.toString() + "Hub").build(),
-            new BoardModuleBuilder("HubValue",2).withRandomDisplay().build(),
+            new BoardModuleBuilder("Lobby",3).withDisplay(ChatColor.BLUE + ChatColor.BOLD.toString() + "Hub").build(),
+            new BoardModuleBuilder("LobbyValue",2).withRandomDisplay().build(),
             new BoardModuleBuilder("Spacer5",1).withRandomDisplay().build(),
             new BoardModuleBuilder("SiteValue",0).withDisplay("thebubblenetwork").build()
     ) {
@@ -45,7 +45,7 @@ public class LobbyBoard extends SingleBubbleBoard{
             board.getScore(this,getModule("NicknameValue")).getTeam().setSuffix(ChatColorAppend.wipe(player.getNickName()));
             board.getScore(this,getModule("RankValue")).getTeam().setSuffix(player.getRank().isDefault() ? "None ": player.getRank().getName());
             board.getScore(this,getModule("TokenValue")).getTeam().setSuffix(String.valueOf(player.getTokens()));
-            board.getScore(this,getModule("HubValue")).getTeam().setSuffix(BubbleNetwork.getInstance().getType().getName() + "-" + String.valueOf(BubbleNetwork.getInstance().getId()));
+            board.getScore(this,getModule("LobbyValue")).getTeam().setSuffix(BubbleNetwork.getInstance().getType().getName() + "-" + String.valueOf(BubbleNetwork.getInstance().getId()));
             Team t = board.getScore(this,getModule("SiteValue")).getTeam();
             t.setPrefix(ChatColor.GRAY + "play.");
             t.setSuffix(".com");

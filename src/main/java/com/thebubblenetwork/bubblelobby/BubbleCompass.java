@@ -1,5 +1,6 @@
 package com.thebubblenetwork.bubblelobby;
 
+import com.thebubblenetwork.api.framework.BubbleNetwork;
 import com.thebubblenetwork.api.framework.util.mc.menu.Menu;
 import com.thebubblenetwork.api.framework.util.mc.menu.MenuManager;
 import org.bukkit.Bukkit;
@@ -45,16 +46,13 @@ public class BubbleCompass extends Menu {
         update();
     }
 
-    @Override
     public void click(Player player, ClickType clickType, int i, ItemStack itemStack) {
         CompassItem item = getItem(i);
         if(item != null){
-            //TODO - Server sending
-            player.sendMessage(item.getType().getName());
+            BubbleNetwork.getInstance().sendPlayer(player,item.getType());
         }
     }
 
-    @Override
     public ItemStack[] generate() {
         ItemStack[] stacks = new ItemStack[getInventory().getSize()];
         CompassItem item;

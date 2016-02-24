@@ -2,7 +2,8 @@ package com.thebubblenetwork.bubblelobby;
 
 import com.google.common.collect.ImmutableMap;
 import com.thebubblenetwork.api.framework.BubbleNetwork;
-import com.thebubblenetwork.api.framework.plugin.BubblePlugin;
+import com.thebubblenetwork.api.framework.plugin.BubbleAddon;
+import com.thebubblenetwork.api.framework.plugin.BubbleRunnable;
 import com.thebubblenetwork.api.framework.util.mc.chat.ChatColorAppend;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
 import com.thebubblenetwork.api.global.bubblepackets.messaging.messages.handshake.JoinableUpdate;
@@ -32,7 +33,7 @@ import java.util.*;
  * Project: BubbleLobby
 */
 
-public class BubbleLobby extends BubblePlugin {
+public class BubbleLobby extends BubbleAddon {
     private static BubbleLobby instance;
 
     public static BubbleLobby getInstance() {
@@ -106,10 +107,12 @@ public class BubbleLobby extends BubblePlugin {
 
         compass = new BubbleCompass(items);
 
+        BubbleNetwork.getInstance().getManager().addMenu(this,compass);
+
         registerListener(getListener());
 
 
-        new BukkitRunnable() {
+        new BubbleRunnable() {
             public void run() {
                 getNetwork().logInfo("Setting joinable...");
                 try {
@@ -119,10 +122,11 @@ public class BubbleLobby extends BubblePlugin {
                     getNetwork().endSetup("Could not set joinable");
                 }
             }
-        }.runTaskAsynchronously(this);
+        }.runTaskAsynchonrously(this);
     }
 
     public void onDisable() {
+        BubbleNetwork.getInstance().getManager().remove(this);
         try {
             getNetwork().getPacketHub().sendMessage(getNetwork().getProxy(), new JoinableUpdate(false));
         } catch (IOException e) {
