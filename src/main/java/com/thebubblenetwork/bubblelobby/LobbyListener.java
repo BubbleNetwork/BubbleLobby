@@ -30,10 +30,6 @@ import org.bukkit.inventory.ItemStack;
  */
 public class LobbyListener implements Listener{
 
-    public LobbyListener(){
-        BubbleLobby.getInstance().registerListener(this);
-    }
-
     protected static final int
     COMPASSSLOT = 0;
 

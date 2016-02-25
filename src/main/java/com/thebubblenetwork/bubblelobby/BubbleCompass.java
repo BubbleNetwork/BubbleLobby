@@ -27,6 +27,7 @@ public class BubbleCompass extends Menu {
         super(ChatColor.AQUA + "BubbleNetwork", getSize(items));
         this.items = items;
         update();
+        BubbleNetwork.getInstance().registerMenu(BubbleLobby.getInstance(),this);
     }
 
     public CompassItem getItem(int i){

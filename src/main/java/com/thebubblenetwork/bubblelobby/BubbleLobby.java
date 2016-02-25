@@ -107,8 +107,6 @@ public class BubbleLobby extends BubbleAddon {
 
         compass = new BubbleCompass(items);
 
-        BubbleNetwork.getInstance().getManager().addMenu(this,compass);
-
         registerListener(getListener());
 
 
@@ -126,7 +124,6 @@ public class BubbleLobby extends BubbleAddon {
     }
 
     public void onDisable() {
-        BubbleNetwork.getInstance().getManager().remove(this);
         try {
             getNetwork().getPacketHub().sendMessage(getNetwork().getProxy(), new JoinableUpdate(false));
         } catch (IOException e) {

@@ -1,5 +1,6 @@
 package com.thebubblenetwork.bubblelobby;
 
+import com.thebubblenetwork.api.framework.BubbleNetwork;
 import com.thebubblenetwork.api.framework.util.mc.menu.Menu;
 import com.thebubblenetwork.api.framework.util.mc.menu.MenuManager;
 import net.md_5.bungee.api.ChatColor;
@@ -23,6 +24,7 @@ public class LobbyMenu extends Menu {
 
     public LobbyMenu() {
         super(ChatColor.AQUA + "Lobby Menu", 9);
+        BubbleNetwork.getInstance().registerMenu(BubbleLobby.getInstance(),this);
     }
 
     public void click(Player player, ClickType clickType, int i, ItemStack itemStack) {
