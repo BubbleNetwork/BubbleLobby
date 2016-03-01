@@ -24,30 +24,29 @@ public class LobbyMenu extends Menu {
 
     public LobbyMenu() {
         super(ChatColor.AQUA + "Lobby Menu", 9);
-        BubbleNetwork.getInstance().registerMenu(BubbleLobby.getInstance(),this);
+        BubbleNetwork.getInstance().registerMenu(BubbleLobby.getInstance(), this);
     }
 
     public void click(Player player, ClickType clickType, int i, ItemStack itemStack) {
-        if(i < lobbies.size()){
+        if (i < lobbies.size()) {
             Lobby l = lobbies.get(i);
-            if(l.isOnline()){
+            if (l.isOnline()) {
                 //TODO - SERVER SENDING
-            }
-            else{
+            } else {
                 TextComponent c = new TextComponent("This lobby is offline!");
                 c.setColor(ChatColor.RED);
-                c.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,TextComponent.fromLegacyText(ChatColor.DARK_RED + "You cannot join that server")));
+                c.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.DARK_RED + "You cannot join that server")));
                 player.spigot().sendMessage(c);
             }
         }
     }
 
-    public void setLobbies(Collection<Lobby> lobbies){
+    public void setLobbies(Collection<Lobby> lobbies) {
         this.lobbies.clear();
         this.lobbies.addAll(lobbies);
         Collections.sort(this.lobbies, new Comparator<Lobby>() {
             public int compare(Lobby o1, Lobby o2) {
-                return o1.getId()-o2.getId();
+                return o1.getId() - o2.getId();
             }
         });
         this.inventory = Bukkit.createInventory(this, MenuManager.getRoundedInventorySize(lobbies.size()), ChatColor.AQUA + "Lobby Menu");
@@ -55,9 +54,9 @@ public class LobbyMenu extends Menu {
     }
 
     public ItemStack[] generate() {
-        ItemStack[] stack =  new ItemStack[getInventory().getSize()];
+        ItemStack[] stack = new ItemStack[getInventory().getSize()];
         int i = 0;
-        for(Lobby l:lobbies){
+        for (Lobby l : lobbies) {
             stack[i] = l.getItem();
             i++;
         }

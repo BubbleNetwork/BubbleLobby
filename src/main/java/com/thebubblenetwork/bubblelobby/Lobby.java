@@ -17,7 +17,7 @@ import java.util.List;
  * Created February 2016
  */
 public class Lobby {
-    private int online,id;
+    private int online, id;
 
     public Lobby(int online, int id) {
         this.online = online;
@@ -25,11 +25,13 @@ public class Lobby {
     }
 
     public int getOnline() {
-        if(!isOnline())return 0;
+        if (!isOnline()) {
+            return 0;
+        }
         return online;
     }
 
-    public boolean isOnline(){
+    public boolean isOnline() {
         return this.online != -1;
     }
 
@@ -37,15 +39,14 @@ public class Lobby {
         return id;
     }
 
-    public ItemStack getItem(){
+    public ItemStack getItem() {
         ItemStackBuilder builder = new ItemStackBuilder(Material.WOOL);
         DyeColor color;
         List<String> lore;
-        if(isOnline()){
+        if (isOnline()) {
             color = DyeColor.GREEN;
-            lore = Arrays.asList(ChatColor.BLUE + "There are currently " + ChatColor.AQUA + String.valueOf(getOnline()) + ChatColor.BLUE + " people online in this hub",ChatColor.GREEN + "Click to join");
-        }
-        else{
+            lore = Arrays.asList(ChatColor.BLUE + "There are currently " + ChatColor.AQUA + String.valueOf(getOnline()) + ChatColor.BLUE + " people online in this hub", ChatColor.GREEN + "Click to join");
+        } else {
             color = DyeColor.RED;
             lore = Collections.singletonList(ChatColor.RED + "This hub is currently offline");
         }
