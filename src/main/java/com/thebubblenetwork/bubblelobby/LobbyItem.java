@@ -16,10 +16,10 @@ import java.util.List;
  * 21/02/2016 {15:38}
  * Created February 2016
  */
-public class Lobby {
+public class LobbyItem {
     private int online, id;
 
-    public Lobby(int online, int id) {
+    public LobbyItem(int online, int id) {
         this.online = online;
         this.id = id;
     }

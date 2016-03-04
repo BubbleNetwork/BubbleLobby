@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Set;
 
-public class BubbleCompass extends Menu {
+public class LobbyCompass extends Menu {
 
     private static int getSize(Set<CompassItem> items) {
         int currentsize = 0;
@@ -25,7 +25,7 @@ public class BubbleCompass extends Menu {
 
     private Set<CompassItem> items;
 
-    public BubbleCompass(Set<CompassItem> items) {
+    public LobbyCompass(Set<CompassItem> items) {
         super(ChatColor.AQUA + "BubbleNetwork", getSize(items));
         this.items = items;
         update();

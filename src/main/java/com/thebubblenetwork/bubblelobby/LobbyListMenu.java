@@ -19,17 +19,17 @@ import java.util.*;
  * 21/02/2016 {15:38}
  * Created February 2016
  */
-public class LobbyMenu extends Menu {
-    private final List<Lobby> lobbies = new ArrayList<>();
+public class LobbyListMenu extends Menu {
+    private final List<LobbyItem> lobbies = new ArrayList<>();
 
-    public LobbyMenu() {
+    public LobbyListMenu() {
         super(ChatColor.AQUA + "Lobby Menu", 9);
         BubbleNetwork.getInstance().registerMenu(BubbleLobby.getInstance(), this);
     }
 
     public void click(Player player, ClickType clickType, int i, ItemStack itemStack) {
         if (i < lobbies.size()) {
-            Lobby l = lobbies.get(i);
+            LobbyItem l = lobbies.get(i);
             if (l.isOnline()) {
                 //TODO - SERVER SENDING
             } else {
@@ -41,11 +41,11 @@ public class LobbyMenu extends Menu {
         }
     }
 
-    public void setLobbies(Collection<Lobby> lobbies) {
+    public void setLobbies(Collection<LobbyItem> lobbies) {
         this.lobbies.clear();
         this.lobbies.addAll(lobbies);
-        Collections.sort(this.lobbies, new Comparator<Lobby>() {
-            public int compare(Lobby o1, Lobby o2) {
+        Collections.sort(this.lobbies, new Comparator<LobbyItem>() {
+            public int compare(LobbyItem o1, LobbyItem o2) {
                 return o1.getId() - o2.getId();
             }
         });
@@ -56,7 +56,7 @@ public class LobbyMenu extends Menu {
     public ItemStack[] generate() {
         ItemStack[] stack = new ItemStack[getInventory().getSize()];
         int i = 0;
-        for (Lobby l : lobbies) {
+        for (LobbyItem l : lobbies) {
             stack[i] = l.getItem();
             i++;
         }

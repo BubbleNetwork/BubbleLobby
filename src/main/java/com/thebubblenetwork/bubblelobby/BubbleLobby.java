@@ -46,7 +46,7 @@ public class BubbleLobby extends BubbleAddon {
     private static BubbleLobby instance;
     private LobbyListener listener;
     private BubbleNetwork network;
-    private BubbleCompass compass;
+    private LobbyCompass compass;
 
     public void onLoad() {
         network = BubbleNetwork.getInstance();
@@ -96,7 +96,7 @@ public class BubbleLobby extends BubbleAddon {
             getNetwork().endSetup("Could not load compass items");
         }
 
-        compass = new BubbleCompass(items);
+        compass = new LobbyCompass(items);
 
         registerListener(getListener());
 
@@ -130,7 +130,7 @@ public class BubbleLobby extends BubbleAddon {
         return listener;
     }
 
-    public BubbleCompass getCompass() {
+    public LobbyCompass getCompass() {
         return compass;
     }
 

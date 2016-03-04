@@ -42,7 +42,7 @@ public class LobbyListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        LobbyBoard.createBoard(p);
+        LobbyScoreboard.createBoard(p);
         p.setGameMode(GameMode.ADVENTURE);
         p.setLevel(0);
         p.setFoodLevel(20);
@@ -54,7 +54,7 @@ public class LobbyListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        LobbyBoard.removeBoard(e.getPlayer().getUniqueId());
+        LobbyScoreboard.removeBoard(e.getPlayer().getUniqueId());
     }
 
     public ItemStack[] generateInventory() {
