@@ -68,7 +68,7 @@ public class CosmeticsManager {
         return new Unsafe() {
             public CosmeticsHook create() {
                 if(cosmetics == null || !cosmetics.isEnabled())throw new IllegalArgumentException("Can only hook when enabled");
-                return new CosmeticsHook();
+                return new CosmeticsHook(cosmetics);
             }
         };
     }

@@ -17,6 +17,4 @@ public class CosmeticsHook {
     public void openMenu(Player p){
         MainMenuManager.openMenu(p);
     }
-
-    public void
 }
