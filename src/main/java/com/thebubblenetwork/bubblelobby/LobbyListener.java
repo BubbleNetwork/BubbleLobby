@@ -30,14 +30,10 @@ import org.bukkit.inventory.ItemStack;
  */
 public class LobbyListener implements Listener {
 
-    protected static final int COMPASSSLOT = 0;
+    protected static final int COMPASSSLOT = 0,GADGETSLOT = 1;
 
-    private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS).withAmount(1).withName(ChatColor.AQUA + "Compass").withLore(ChatColor.GRAY + "Right-click to open up the menu!", ChatColor.GRAY + "You can access any gamemode");
-
-
-    public ItemStackBuilder getCompass() {
-        return compass;
-    }
+    private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS).withAmount(1).withName(ChatColor.AQUA + "Compass").withLore(ChatColor.GRAY + "Right-click to open up the server-menu!", ChatColor.GRAY + "You can access any gamemode");
+    private ItemStackBuilder gadget = new ItemStackBuilder(Material.BLAZE_POWDER).withAmount(1).withName(ChatColor.AQUA + "Gadgets").withLore(ChatColor.GRAY + "Right-click to open up the gadget menu");
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
@@ -60,50 +56,51 @@ public class LobbyListener implements Listener {
     public ItemStack[] generateInventory() {
         ItemStack[] is = new ItemStack[4 * 9];
         is[COMPASSSLOT] = compass.build();
+        is[GADGETSLOT] = gadget.build();
         return is;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockDamage(BlockDamageEvent e) {
         e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent e) {
         e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockCanBuild(BlockCanBuildEvent e) {
         e.setBuildable(false);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent e) {
         e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onBlockPlaceMultiple(BlockMultiPlaceEvent e) {
         e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onInventoryClick(InventoryClickEvent e) {
         e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onItemDrop(PlayerDropItemEvent e) {
         e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onItemPickup(PlayerPickupItemEvent e) {
         e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             e.setCancelled(true);
@@ -115,17 +112,20 @@ public class LobbyListener implements Listener {
         e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteractMedium(PlayerInteractEvent e) {
         int slot = e.getPlayer().getInventory().getHeldItemSlot();
         if (e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) {
-            if (slot == 0) {
+            if (slot == COMPASSSLOT) {
                 BubbleLobby.getInstance().getCompass().show(e.getPlayer());
+            }
+            else if(slot == GADGETSLOT){
+                BubbleLobby.getInstance().getManager().unsafe().create().openMenu(e.getPlayer());
             }
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
         e.setFoodLevel(20);
     }

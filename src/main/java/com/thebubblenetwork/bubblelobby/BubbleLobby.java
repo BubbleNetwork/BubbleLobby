@@ -47,6 +47,7 @@ public class BubbleLobby extends BubbleAddon {
     private LobbyListener listener;
     private BubbleNetwork network;
     private LobbyCompass compass;
+    private CosmeticsManager manager;
 
     public void onLoad() {
         network = BubbleNetwork.getInstance();
@@ -100,6 +101,10 @@ public class BubbleLobby extends BubbleAddon {
 
         registerListener(getListener());
 
+        manager = new CosmeticsManager(getNetwork());
+        manager.download();
+        manager.load();
+        manager.enable();
 
         new BubbleRunnable() {
             public void run() {
@@ -115,6 +120,7 @@ public class BubbleLobby extends BubbleAddon {
     }
 
     public void onDisable() {
+        manager.disable();
         try {
             getNetwork().getPacketHub().sendMessage(getNetwork().getProxy(), new JoinableUpdate(false));
         } catch (IOException e) {
@@ -122,6 +128,8 @@ public class BubbleLobby extends BubbleAddon {
             getNetwork().endSetup("Could not set joinable");
         }
         setInstance(null);
+        manager.unload();
+        manager.clearUp();
         listener = null;
         network = null;
     }
@@ -136,6 +144,10 @@ public class BubbleLobby extends BubbleAddon {
 
     public BubbleNetwork getNetwork() {
         return network;
+    }
+
+    public CosmeticsManager getManager() {
+        return manager;
     }
 
     public int getVersion() {

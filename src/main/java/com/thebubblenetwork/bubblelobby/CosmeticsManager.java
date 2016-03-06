@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.logging.Level;
 
 public class CosmeticsManager {
-    private static final String PluginURL = "";
+    private static final String PluginURL = "https://www.dropbox.com/s/sj5fnecvumyt5kx/UltraCosmetics.jar?dl=1";
     private BubbleNetwork network;
     private final File file;
     private final File jar;
@@ -20,6 +20,14 @@ public class CosmeticsManager {
         this.network = network;
         file = new File(BubbleLobby.getInstance().getLoader().getJar().getParent(),"UltraCosmetics");
         jar = new File(file,"UltraCosmetics.jar");
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public File getJar() {
+        return jar;
     }
 
     public void download(){
@@ -38,34 +46,29 @@ public class CosmeticsManager {
     }
 
     public void load(){
-        if(cosmetics != null)throw new IllegalArgumentException("Already loaded");
         if(!jar.exists())throw new IllegalArgumentException("Jar doesn't exist");
         cosmetics = network.getPlugman().load(jar);
     }
 
     public void enable(){
-        if(cosmetics == null || !cosmetics.isEnabled())throw new IllegalArgumentException("Not loaded");
         network.getPlugman().enable(cosmetics);
     }
 
     public void disable(){
-        if(cosmetics == null || !cosmetics.isEnabled())throw new IllegalArgumentException("Not enabled");
         network.getPlugman().disable(cosmetics);
     }
 
     public void unload(){
-        if(cosmetics == null || cosmetics.isEnabled())throw new IllegalArgumentException("Not loaded");
         network.getPlugman().unload(cosmetics);
         cosmetics = null;
     }
 
     public void clearUp(){
-        if(cosmetics != null)throw new IllegalArgumentException("Must be unloaded");
         FileUTIL.deleteDir(file);
     }
 
     public Unsafe unsafe(){
-        return new Unsafe() {
+        return new Unsafe(){
             public CosmeticsHook create() {
                 if(cosmetics == null || !cosmetics.isEnabled())throw new IllegalArgumentException("Can only hook when enabled");
                 return new CosmeticsHook(cosmetics);
