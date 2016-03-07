@@ -8,7 +8,6 @@ import com.thebubblenetwork.api.framework.util.mc.scoreboard.BoardPreset;
 import com.thebubblenetwork.api.framework.util.mc.scoreboard.BubbleBoardAPI;
 import com.thebubblenetwork.api.framework.util.mc.scoreboard.SingleBubbleBoard;
 import com.thebubblenetwork.api.framework.util.mc.scoreboard.util.BoardModuleBuilder;
-import com.thebubblenetwork.api.global.player.BubblePlayer;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,7 +24,7 @@ public class LobbyScoreboard extends SingleBubbleBoard {
         public void onEnable(BubbleBoardAPI bubbleBoardAPI) {
             SingleBubbleBoard board = (SingleBubbleBoard) bubbleBoardAPI;
             Player p = Bukkit.getPlayer(board.getName());
-            BubblePlayer<Player> player = BukkitBubblePlayer.getObject(p.getUniqueId());
+            BukkitBubblePlayer player = BukkitBubblePlayer.getObject(p.getUniqueId());
             board.getScore(this, getModule("NicknameValue")).getTeam().setSuffix(ChatColorAppend.wipe(player.getNickName()));
             board.getScore(this, getModule("RankValue")).getTeam().setSuffix(player.getRank().isDefault() ? "None " : player.getRank().getName());
             board.getScore(this, getModule("TokenValue")).getTeam().setSuffix(String.valueOf(player.getTokens()));

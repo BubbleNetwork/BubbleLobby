@@ -9,12 +9,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CosmeticsHook {
     private Core core;
 
-    public CosmeticsHook(JavaPlugin plugin){
-        if(!(plugin instanceof Core))throw new IllegalArgumentException("Not UltraCosmetics");
-        core = (Core)plugin;
+    public CosmeticsHook(JavaPlugin plugin) {
+        if (!(plugin instanceof Core)) {
+            throw new IllegalArgumentException("Not UltraCosmetics");
+        }
+        core = (Core) plugin;
     }
 
-    public void openMenu(Player p){
+    public void openMenu(Player p) {
         MainMenuManager.openMenu(p);
     }
 }

@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -30,10 +31,9 @@ import org.bukkit.inventory.ItemStack;
  */
 public class LobbyListener implements Listener {
 
-    protected static final int COMPASSSLOT = 0,GADGETSLOT = 1;
+    protected static final int COMPASSSLOT = 0;
 
     private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS).withAmount(1).withName(ChatColor.AQUA + "Compass").withLore(ChatColor.GRAY + "Right-click to open up the server-menu!", ChatColor.GRAY + "You can access any gamemode");
-    private ItemStackBuilder gadget = new ItemStackBuilder(Material.BLAZE_POWDER).withAmount(1).withName(ChatColor.AQUA + "Gadgets").withLore(ChatColor.GRAY + "Right-click to open up the gadget menu");
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
@@ -45,7 +45,20 @@ public class LobbyListener implements Listener {
         p.setHealth(20);
         p.getInventory().setArmorContents(new ItemStack[4]);
         p.getInventory().setContents(generateInventory());
-        p.teleport(new Location(Bukkit.getWorld("world"), 0.5, 97, 0.5));
+        p.teleport(BubbleLobby.getInstance().getSpawn().toLocation(BubbleLobby.getInstance().getW()));
+    }
+
+    @EventHandler
+    public void onCreatureSpawn(CreatureSpawnEvent e){
+        switch (e.getSpawnReason()){
+            case NATURAL:
+            case REINFORCEMENTS:
+            case NETHER_PORTAL:
+            case SPAWNER:
+            case LIGHTNING:
+            case INFECTION:
+                e.setCancelled(true);
+        }
     }
 
     @EventHandler
@@ -56,7 +69,6 @@ public class LobbyListener implements Listener {
     public ItemStack[] generateInventory() {
         ItemStack[] is = new ItemStack[4 * 9];
         is[COMPASSSLOT] = compass.build();
-        is[GADGETSLOT] = gadget.build();
         return is;
     }
 
@@ -118,9 +130,6 @@ public class LobbyListener implements Listener {
         if (e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) {
             if (slot == COMPASSSLOT) {
                 BubbleLobby.getInstance().getCompass().show(e.getPlayer());
-            }
-            else if(slot == GADGETSLOT){
-                BubbleLobby.getInstance().getManager().unsafe().create().openMenu(e.getPlayer());
             }
         }
     }
