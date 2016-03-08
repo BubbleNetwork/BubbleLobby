@@ -176,7 +176,12 @@ public class BubbleLobby extends BubbleAddon {
     public void onDisable() {
         Bukkit.unloadWorld(w,false);
         FileUTIL.deleteDir(lobbyfile);
-        manager.disable();
+        try {
+            manager.disable();
+        }
+        catch (Exception ex){
+            //Might already be disabled
+        }
         try {
             getNetwork().getPacketHub().sendMessage(getNetwork().getProxy(), new JoinableUpdate(false));
         } catch (IOException e) {
@@ -184,7 +189,12 @@ public class BubbleLobby extends BubbleAddon {
             getNetwork().endSetup("Could not set unjoinable");
         }
         setInstance(null);
-        manager.unload();
+        try {
+            manager.unload();
+        }
+        catch (Exception ex){
+            //Might already be unloaded
+        }
         manager.clearUp();
         listener = null;
         network = null;
