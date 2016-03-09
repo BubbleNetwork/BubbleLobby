@@ -2,7 +2,6 @@ package com.thebubblenetwork.bubblelobby;
 
 import com.thebubblenetwork.api.framework.BubbleNetwork;
 import com.thebubblenetwork.api.framework.util.mc.menu.Menu;
-import com.thebubblenetwork.api.framework.util.mc.menu.MenuManager;
 import com.thebubblenetwork.api.global.type.ServerType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -50,7 +49,7 @@ public class LobbyListMenu extends Menu {
                 return o1.getId() - o2.getId();
             }
         });
-        this.inventory = Bukkit.createInventory(this, MenuManager.getRoundedInventorySize(lobbies.size()), ChatColor.AQUA + "Lobby Menu");
+        this.inventory = Bukkit.createInventory(this, getRoundedInventorySize(lobbies.size()), ChatColor.AQUA + "Lobby Menu");
         update();
     }
 

@@ -2,7 +2,6 @@ package com.thebubblenetwork.bubblelobby;
 
 import com.thebubblenetwork.api.framework.BubbleNetwork;
 import com.thebubblenetwork.api.framework.util.mc.menu.Menu;
-import com.thebubblenetwork.api.framework.util.mc.menu.MenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -20,7 +19,7 @@ public class LobbyCompass extends Menu {
                 currentsize = item.getNumber();
             }
         }
-        return MenuManager.getRoundedInventorySize(currentsize);
+        return getRoundedInventorySize(currentsize);
     }
 
     private Set<CompassItem> items;
