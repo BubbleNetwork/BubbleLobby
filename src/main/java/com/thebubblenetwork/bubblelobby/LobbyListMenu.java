@@ -3,6 +3,7 @@ package com.thebubblenetwork.bubblelobby;
 import com.thebubblenetwork.api.framework.BubbleNetwork;
 import com.thebubblenetwork.api.framework.util.mc.menu.Menu;
 import com.thebubblenetwork.api.framework.util.mc.menu.MenuManager;
+import com.thebubblenetwork.api.global.type.ServerType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -31,7 +32,7 @@ public class LobbyListMenu extends Menu {
         if (i < lobbies.size()) {
             LobbyItem l = lobbies.get(i);
             if (l.isOnline()) {
-                //TODO - SERVER SENDING
+                BubbleNetwork.getInstance().sendPlayer(player, ServerType.getType("Lobby").getPrefix() + l.getId());
             } else {
                 TextComponent c = new TextComponent("This lobby is offline!");
                 c.setColor(ChatColor.RED);
