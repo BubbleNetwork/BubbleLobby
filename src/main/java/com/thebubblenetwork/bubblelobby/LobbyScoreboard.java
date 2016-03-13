@@ -8,15 +8,19 @@ import com.thebubblenetwork.api.framework.util.mc.scoreboard.BoardPreset;
 import com.thebubblenetwork.api.framework.util.mc.scoreboard.BubbleBoardAPI;
 import com.thebubblenetwork.api.framework.util.mc.scoreboard.SingleBubbleBoard;
 import com.thebubblenetwork.api.framework.util.mc.scoreboard.util.BoardModuleBuilder;
+import com.thebubblenetwork.api.global.ranks.Rank;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Team;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class LobbyScoreboard extends SingleBubbleBoard {
     public static final String TITLE = ChatColor.BLUE + "[" + ChatColor.AQUA + ChatColor.BOLD.toString() + "BubbleNetwork" + ChatColor.BLUE + "]";
@@ -34,7 +38,8 @@ public class LobbyScoreboard extends SingleBubbleBoard {
             t.setSuffix(".com");
         }
     };
-    protected static Map<UUID, LobbyScoreboard> map = new HashMap<>();
+
+    protected static ConcurrentMap<UUID, LobbyScoreboard> map = new ConcurrentHashMap<>();
 
     public static LobbyScoreboard getBoard(UUID u) {
         return map.get(u);
@@ -42,6 +47,10 @@ public class LobbyScoreboard extends SingleBubbleBoard {
 
     public static LobbyScoreboard removeBoard(UUID u) {
         return map.remove(u);
+    }
+
+    public static Collection<LobbyScoreboard> getBoards(){
+        return map.values();
     }
 
     public static LobbyScoreboard createBoard(Player p) {
