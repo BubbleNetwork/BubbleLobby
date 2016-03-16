@@ -5,6 +5,8 @@ import com.thebubblenetwork.api.framework.plugin.BubbleRunnable;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
 import com.thebubblenetwork.api.global.player.BubblePlayer;
 import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -151,6 +153,15 @@ public class LobbyListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerInteract(PlayerInteractEvent e) {
         e.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onPlayerClickCrate(PlayerInteractEvent e){
+        Block b;
+        if(e.getAction() == Action.RIGHT_CLICK_BLOCK && (b = e.getClickedBlock()) != null && b.getType() == Material.TRAPPED_CHEST && b.getState() instanceof Chest){
+            Player p = e.getPlayer();
+            BubbleLobby.getInstance().getManager().unsafe().create().openCrate(p);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
