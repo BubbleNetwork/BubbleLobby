@@ -155,6 +155,8 @@ public class BubbleLobby extends BubbleAddon {
 
         registerListener(getListener());
 
+        GiveGadgetCommand.register();
+
         manager = new CosmeticsManager(getNetwork());
         manager.download();
         manager.load();
@@ -195,6 +197,9 @@ public class BubbleLobby extends BubbleAddon {
         catch (Exception ex){
             //Might already be unloaded
         }
+
+        GiveGadgetCommand.unregister();
+
         manager.clearUp();
         listener = null;
         network = null;
