@@ -10,7 +10,7 @@ import java.io.File;
 import java.util.logging.Level;
 
 public class CosmeticsManager {
-    private static final String PluginURL = "https://www.dropbox.com/s/sj5fnecvumyt5kx/UltraCosmetics.jar?dl=1";
+    private static final String PluginURL = "UltraCosmetics.jar";
     private final File file;
     private final File jar;
     private BubbleNetwork network;

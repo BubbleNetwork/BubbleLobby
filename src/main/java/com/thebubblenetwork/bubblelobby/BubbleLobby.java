@@ -56,7 +56,7 @@ public class BubbleLobby extends BubbleAddon {
 
     private static BubbleLobby instance;
     private final File lobbyfile = new File("Lobby");
-    private final String lobbydownload = "https://www.dropbox.com/s/67i3vydf1pqsjjr/hub.zip?dl=1";
+    private final String lobbydownload = "hub.zip";
     private LobbyListener listener;
     private BubbleNetwork network;
     private LobbyCompass compass;
