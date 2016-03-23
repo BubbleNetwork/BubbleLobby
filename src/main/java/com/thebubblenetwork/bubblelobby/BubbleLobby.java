@@ -83,7 +83,7 @@ public class BubbleLobby extends BubbleAddon {
         File temp = new File("temp");
 
         try {
-            DownloadUtil.download(tempzip, lobbydownload);
+            DownloadUtil.download(tempzip, lobbydownload, BubbleNetwork.getInstance().getFTP());
         } catch (Exception e) {
             getNetwork().getLogger().log(Level.WARNING, "Could not download lobby", e);
         }

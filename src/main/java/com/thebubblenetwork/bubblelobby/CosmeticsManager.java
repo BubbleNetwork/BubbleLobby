@@ -43,7 +43,7 @@ public class CosmeticsManager {
             network.getLogger().log(Level.WARNING, "Could not allow any SSL", e);
         }
         try {
-            DownloadUtil.download(jar, PluginURL);
+            DownloadUtil.download(jar, PluginURL, BubbleNetwork.getInstance().getFTP());
         } catch (Exception e) {
             network.getLogger().log(Level.WARNING, "Could not download UltraCosmetics");
         }
