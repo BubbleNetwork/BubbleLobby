@@ -2,6 +2,7 @@ package com.thebubblenetwork.bubblelobby;
 
 import com.google.common.collect.ImmutableMap;
 import com.thebubblenetwork.api.framework.BubbleNetwork;
+import com.thebubblenetwork.api.framework.cosmetics.CosmeticsManager;
 import com.thebubblenetwork.api.framework.plugin.BubbleAddon;
 import com.thebubblenetwork.api.framework.plugin.BubbleRunnable;
 import com.thebubblenetwork.api.framework.util.mc.chat.ChatColorAppend;
