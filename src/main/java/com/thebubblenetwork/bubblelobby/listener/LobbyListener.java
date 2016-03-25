@@ -188,8 +188,8 @@ public class LobbyListener implements Listener {
 
     @EventHandler
     public void onPlayerDataReceive(PlayerDataReceivedEvent e){
-        LobbyScoreboard scoreboard = LobbyScoreboard.getBoard(e.getPlayer().getUniqueId());
-        scoreboard.enable(scoreboard.getCurrentpreset());
+        LobbyScoreboard board = LobbyScoreboard.getBoard(e.getPlayer().getUniqueId());
+        if(board.getCurrentpreset() != null)board.getCurrentpreset().onEnable(board);
         Rank before = e.getBefore().getRank();
         Rank after = e.getAfter().getRank();
         if(before != after){
