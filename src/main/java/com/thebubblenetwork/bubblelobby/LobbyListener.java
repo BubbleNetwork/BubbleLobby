@@ -40,9 +40,10 @@ import java.util.UUID;
  */
 public class LobbyListener implements Listener {
 
-    protected static final int COMPASSSLOT = 0;
+    protected static final int COMPASSSLOT = 0, COSMETICSLOT = 8;
 
-    private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS).withAmount(1).withName(ChatColor.AQUA + "Compass").withLore(ChatColor.GRAY + "Right-click to open up the server-menu!");
+    private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS).withAmount(1).withName(ChatColor.AQUA + "Compass").withLore(ChatColor.GRAY + "Click to open up the server-menu!");
+    private ItemStackBuilder cosmetics = new ItemStackBuilder(Material.BLAZE_POWDER).withName(ChatColor.AQUA + "Cosmetics").withLore(ChatColor.GRAY + "Click to open the cosmetics menu");
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
@@ -100,6 +101,7 @@ public class LobbyListener implements Listener {
     public ItemStack[] generateInventory() {
         ItemStack[] is = new ItemStack[4 * 9];
         is[COMPASSSLOT] = compass.build();
+        is[COSMETICSLOT] = cosmetics.build();
         return is;
     }
 
@@ -170,6 +172,9 @@ public class LobbyListener implements Listener {
         if (e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) {
             if (slot == COMPASSSLOT) {
                 BubbleLobby.getInstance().getCompass().show(e.getPlayer());
+            }
+            else if(slot == COSMETICSLOT){
+                BubbleLobby.getInstance().getManager().unsafe().create().openMenu(e.getPlayer());
             }
         }
     }
