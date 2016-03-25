@@ -1,8 +1,9 @@
-package com.thebubblenetwork.bubblelobby;
+package com.thebubblenetwork.bubblelobby.menus.lobbyselector;
 
 import com.thebubblenetwork.api.framework.BubbleNetwork;
 import com.thebubblenetwork.api.framework.util.mc.menu.Menu;
 import com.thebubblenetwork.api.global.type.ServerType;
+import com.thebubblenetwork.bubblelobby.BubbleLobby;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -19,10 +20,10 @@ import java.util.*;
  * 21/02/2016 {15:38}
  * Created February 2016
  */
-public class LobbyListMenu extends Menu {
+public class LobbySelector extends Menu {
     private final List<LobbyItem> lobbies = new ArrayList<>();
 
-    public LobbyListMenu() {
+    public LobbySelector() {
         super(ChatColor.AQUA + "Lobby Menu", 9);
         BubbleNetwork.getInstance().registerMenu(BubbleLobby.getInstance(), this);
     }

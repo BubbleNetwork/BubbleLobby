@@ -1,4 +1,4 @@
-package com.thebubblenetwork.bubblelobby;
+package com.thebubblenetwork.bubblelobby.menus.compass;
 
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
 import com.thebubblenetwork.api.global.type.ServerType;

@@ -1,4 +1,4 @@
-package com.thebubblenetwork.bubblelobby;
+package com.thebubblenetwork.bubblelobby.scoreboard;
 
 import com.google.common.collect.ImmutableMap;
 import com.thebubblenetwork.api.framework.BubbleNetwork;
@@ -8,7 +8,6 @@ import com.thebubblenetwork.api.framework.util.mc.scoreboard.BoardPreset;
 import com.thebubblenetwork.api.framework.util.mc.scoreboard.BubbleBoardAPI;
 import com.thebubblenetwork.api.framework.util.mc.scoreboard.SingleBubbleBoard;
 import com.thebubblenetwork.api.framework.util.mc.scoreboard.util.BoardModuleBuilder;
-import com.thebubblenetwork.api.global.ranks.Rank;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,8 +15,6 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Team;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

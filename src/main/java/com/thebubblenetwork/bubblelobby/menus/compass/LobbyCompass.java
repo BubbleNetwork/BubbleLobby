@@ -1,7 +1,8 @@
-package com.thebubblenetwork.bubblelobby;
+package com.thebubblenetwork.bubblelobby.menus.compass;
 
 import com.thebubblenetwork.api.framework.BubbleNetwork;
 import com.thebubblenetwork.api.framework.util.mc.menu.Menu;
+import com.thebubblenetwork.bubblelobby.BubbleLobby;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

@@ -1,9 +1,10 @@
-package com.thebubblenetwork.bubblelobby;
+package com.thebubblenetwork.bubblelobby.listener;
 
 import com.thebubblenetwork.api.framework.BukkitBubblePlayer;
-import com.thebubblenetwork.api.framework.plugin.BubbleRunnable;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
 import com.thebubblenetwork.api.global.player.BubblePlayer;
+import com.thebubblenetwork.bubblelobby.BubbleLobby;
+import com.thebubblenetwork.bubblelobby.scoreboard.LobbyScoreboard;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -20,7 +21,6 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Team;
 
-import java.util.Collection;
 import java.util.UUID;
 
 /**

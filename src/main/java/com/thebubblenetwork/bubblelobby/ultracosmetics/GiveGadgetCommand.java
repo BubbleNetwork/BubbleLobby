@@ -1,4 +1,4 @@
-package com.thebubblenetwork.bubblelobby;
+package com.thebubblenetwork.bubblelobby.ultracosmetics;
 
 import com.thebubblenetwork.api.framework.BubbleNetwork;
 import com.thebubblenetwork.api.framework.BukkitBubblePlayer;
@@ -12,7 +12,6 @@ import org.bukkit.plugin.SimplePluginManager;
 
 import java.lang.reflect.Field;
 import java.util.Map;
-import java.util.UUID;
 import java.util.logging.Level;
 
 public class GiveGadgetCommand extends Command{

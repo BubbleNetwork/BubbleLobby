@@ -1,4 +1,4 @@
-package com.thebubblenetwork.bubblelobby;
+package com.thebubblenetwork.bubblelobby.menus.lobbyselector;
 
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
 import net.md_5.bungee.api.ChatColor;
