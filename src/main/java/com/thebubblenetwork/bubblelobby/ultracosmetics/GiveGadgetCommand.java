@@ -17,7 +17,7 @@ import java.util.logging.Level;
 public class GiveGadgetCommand extends Command{
     private static GiveGadgetCommand command;
 
-    protected static void register(){
+    public static void register(){
         if(command != null)unregister();
         command = new GiveGadgetCommand();
         Field commandMap;
@@ -39,7 +39,7 @@ public class GiveGadgetCommand extends Command{
         map.register("_",command);
     }
 
-    protected static void unregister(){
+    public static void unregister(){
         Field commandMap;
         Field knownCommands;
         try {
