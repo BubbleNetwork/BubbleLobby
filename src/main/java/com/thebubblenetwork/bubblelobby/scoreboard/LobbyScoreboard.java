@@ -2,11 +2,11 @@ package com.thebubblenetwork.bubblelobby.scoreboard;
 
 import com.google.common.collect.ImmutableMap;
 import com.thebubblenetwork.api.framework.BubbleNetwork;
-import com.thebubblenetwork.api.framework.BukkitBubblePlayer;
+import com.thebubblenetwork.api.framework.player.BukkitBubblePlayer;
 import com.thebubblenetwork.api.framework.util.mc.chat.ChatColorAppend;
-import com.thebubblenetwork.api.framework.util.mc.scoreboard.BoardPreset;
-import com.thebubblenetwork.api.framework.util.mc.scoreboard.BubbleBoardAPI;
-import com.thebubblenetwork.api.framework.util.mc.scoreboard.SingleBubbleBoard;
+import com.thebubblenetwork.api.framework.util.mc.scoreboard.api.BoardPreset;
+import com.thebubblenetwork.api.framework.util.mc.scoreboard.api.BubbleBoardAPI;
+import com.thebubblenetwork.api.framework.util.mc.scoreboard.board.SingleBubbleBoard;
 import com.thebubblenetwork.api.framework.util.mc.scoreboard.util.BoardModuleBuilder;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;

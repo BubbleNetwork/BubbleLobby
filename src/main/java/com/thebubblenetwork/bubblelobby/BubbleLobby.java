@@ -61,13 +61,13 @@ public class BubbleLobby extends BubbleAddon {
 
     private static BubbleLobby instance;
     private final File lobbyfile = new File("Lobby");
-    private final String lobbydownload = "hub.zip";
+    private final String lobbydownload = "Lobby.zip";
     private LobbyListener listener;
     private BubbleNetwork network;
     private LobbyCompass compass;
     private CosmeticsManager manager;
     private World w;
-    private LocationObject spawn = new LocationObject(0.5, 97, 0.5, 0F, 90F);
+    private LocationObject spawn = new LocationObject(0.5, 116, 0.5, 0F, 90F);
 
     public void onLoad() {
         network = BubbleNetwork.getInstance();

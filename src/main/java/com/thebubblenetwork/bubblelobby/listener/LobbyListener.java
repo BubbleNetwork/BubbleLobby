@@ -1,8 +1,10 @@
 package com.thebubblenetwork.bubblelobby.listener;
 
-import com.thebubblenetwork.api.framework.BukkitBubblePlayer;
+import com.thebubblenetwork.api.event.PlayerDataReceivedEvent;
+import com.thebubblenetwork.api.framework.player.BukkitBubblePlayer;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
 import com.thebubblenetwork.api.global.player.BubblePlayer;
+import com.thebubblenetwork.api.global.ranks.Rank;
 import com.thebubblenetwork.bubblelobby.BubbleLobby;
 import com.thebubblenetwork.bubblelobby.scoreboard.LobbyScoreboard;
 import org.bukkit.*;
@@ -157,17 +159,17 @@ public class LobbyListener implements Listener {
         e.setCancelled(true);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerClickCrate(PlayerInteractEvent e){
         Block b;
         if(e.getAction() == Action.RIGHT_CLICK_BLOCK && (b = e.getClickedBlock()) != null && b.getType() == Material.TRAPPED_CHEST && b.getState() instanceof Chest){
             Player p = e.getPlayer();
-            BubbleLobby.getInstance().getManager().unsafe().create().openCrate(p);
+            BubbleLobby.getInstance().getManager().unsafe().create().openCrate(p, b.getLocation().add(0.5, 0, 0.5));
         }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onPlayerInteractMedium(PlayerInteractEvent e) {
+    public void onPlayerInteractHigh(PlayerInteractEvent e) {
         int slot = e.getPlayer().getInventory().getHeldItemSlot();
         if (e.getAction() != Action.LEFT_CLICK_AIR && e.getAction() != Action.LEFT_CLICK_BLOCK) {
             if (slot == COMPASSSLOT) {
