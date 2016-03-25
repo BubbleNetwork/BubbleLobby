@@ -185,4 +185,18 @@ public class LobbyListener implements Listener {
     public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
         e.setFoodLevel(20);
     }
+
+    @EventHandler
+    public void onPlayerDataReceive(PlayerDataReceivedEvent e){
+        LobbyScoreboard scoreboard = LobbyScoreboard.getBoard(e.getPlayer().getUniqueId());
+        scoreboard.enable(scoreboard.getCurrentpreset());
+        Rank before = e.getBefore().getRank();
+        Rank after = e.getAfter().getRank();
+        if(before != after){
+            for(LobbyScoreboard othersb: LobbyScoreboard.getBoards()){
+                othersb.removeRank(before, e.getPlayer());
+                othersb.applyRank(after, e.getPlayer());
+            }
+        }
+    }
 }
