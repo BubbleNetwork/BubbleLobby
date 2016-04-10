@@ -141,7 +141,7 @@ public class BubbleLobby extends BubbleAddon {
                 }
                 int slot = set.getInt("slot");
                 if (slot < -1 || slot > 54) {
-                    getNetwork().getLogger().log(Level.WARNING, "Slot: {0} is invalid", new Object[]{slot});
+                    getNetwork().getLogger().log(Level.WARNING, "Slot: {0} is invalid",slot);
                     continue;
                 }
                 Material m = Material.getMaterial(materialid);

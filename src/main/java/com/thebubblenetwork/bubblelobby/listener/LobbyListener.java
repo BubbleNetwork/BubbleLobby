@@ -2,6 +2,7 @@ package com.thebubblenetwork.bubblelobby.listener;
 
 import com.thebubblenetwork.api.framework.event.PlayerDataReceivedEvent;
 import com.thebubblenetwork.api.framework.player.BukkitBubblePlayer;
+import com.thebubblenetwork.api.framework.plugin.util.BubbleRunnable;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
 import com.thebubblenetwork.api.global.player.BubblePlayer;
 import com.thebubblenetwork.api.global.ranks.Rank;
@@ -44,7 +45,7 @@ public class LobbyListener implements Listener {
 
     protected static final int COMPASSSLOT = 0, LOBBYSELECTORSLOT = 1, COSMETICSLOT = 8;
 
-    private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS).withAmount(1).withName(ChatColor.AQUA + "Compass").withLore(ChatColor.GRAY + "Click to open up the server-menu!");
+    private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS).withAmount(1).withName(ChatColor.AQUA + "Compass").withLore(ChatColor.GRAY + "Click to open up the server menu!");
     private ItemStackBuilder cosmetics = new ItemStackBuilder(Material.BLAZE_POWDER).withName(ChatColor.AQUA + "Cosmetics").withLore(ChatColor.GRAY + "Click to open the cosmetics menu");
     private ItemStackBuilder lobbies = new ItemStackBuilder(Material.WATCH).withName(ChatColor.AQUA + "Lobby Selector").withLore(ChatColor.GRAY + "Click to open the lobby selector");
 
@@ -60,7 +61,7 @@ public class LobbyListener implements Listener {
         p.getInventory().setContents(generateInventory());
         p.teleport(BubbleLobby.getInstance().getSpawn().toLocation(BubbleLobby.getInstance().getW()));
         final UUID u = p.getUniqueId();
-        new Thread(){
+        new BubbleRunnable(){
             @Override
             public void run() {
                 if(p.isOnline()) {
@@ -75,7 +76,7 @@ public class LobbyListener implements Listener {
                     }
                 }
             }
-        }.start();
+        }.runTaskAsynchonrously(BubbleLobby.getInstance());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -194,7 +195,11 @@ public class LobbyListener implements Listener {
     @EventHandler
     public void onPlayerDataReceive(PlayerDataReceivedEvent e){
         LobbyScoreboard board = LobbyScoreboard.getBoard(e.getPlayer().getUniqueId());
-        if(board.getCurrentpreset() != null)board.getCurrentpreset().onEnable(board);
+        new BubbleRunnable(){
+            public void run() {
+                if(e.getPlayer().isOnline() && board.getCurrentpreset() != null)board.getCurrentpreset().onEnable(board);
+            }
+        }.runTaskAsynchonrously(BubbleLobby.getInstance());
         Rank before = e.getBefore().getRank();
         Rank after = e.getAfter().getRank();
         if(before != after){
