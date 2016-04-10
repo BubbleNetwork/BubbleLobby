@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.thebubblenetwork.api.framework.BubbleNetwork;
 import com.thebubblenetwork.api.framework.cosmetics.CosmeticsManager;
 import com.thebubblenetwork.api.framework.plugin.BubbleAddon;
-import com.thebubblenetwork.api.framework.plugin.BubbleRunnable;
+import com.thebubblenetwork.api.framework.plugin.util.BubbleRunnable;
 import com.thebubblenetwork.api.framework.util.mc.chat.ChatColorAppend;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
 import com.thebubblenetwork.api.framework.util.mc.world.LocationObject;
@@ -18,6 +18,7 @@ import com.thebubblenetwork.api.global.type.ServerType;
 import com.thebubblenetwork.bubblelobby.listener.LobbyListener;
 import com.thebubblenetwork.bubblelobby.menus.compass.CompassItem;
 import com.thebubblenetwork.bubblelobby.menus.compass.LobbyCompass;
+import com.thebubblenetwork.bubblelobby.menus.lobbyselector.LobbySelector;
 import com.thebubblenetwork.bubblelobby.ultracosmetics.GiveGadgetCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -65,6 +66,7 @@ public class BubbleLobby extends BubbleAddon {
     private LobbyListener listener;
     private BubbleNetwork network;
     private LobbyCompass compass;
+    LobbySelector lobbySelector;
     private CosmeticsManager manager;
     private World w;
     private LocationObject spawn = new LocationObject(0.5, 116, 0.5, 0F, 90F);
@@ -88,7 +90,7 @@ public class BubbleLobby extends BubbleAddon {
         File temp = new File("temp");
 
         try {
-            DownloadUtil.download(tempzip, lobbydownload, BubbleNetwork.getInstance().getFTP());
+            DownloadUtil.download(tempzip, lobbydownload, BubbleNetwork.getInstance().getFileConnection());
         } catch (Exception e) {
             getNetwork().getLogger().log(Level.WARNING, "Could not download lobby", e);
         }
@@ -157,6 +159,7 @@ public class BubbleLobby extends BubbleAddon {
         }
 
         compass = new LobbyCompass(items);
+        lobbySelector = new LobbySelector();
 
         registerListener(getListener());
 
@@ -216,6 +219,10 @@ public class BubbleLobby extends BubbleAddon {
 
     public LobbyCompass getCompass() {
         return compass;
+    }
+
+    public LobbySelector getLobbySelector() {
+        return lobbySelector;
     }
 
     public BubbleNetwork getNetwork() {

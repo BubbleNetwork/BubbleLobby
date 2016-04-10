@@ -1,6 +1,6 @@
 package com.thebubblenetwork.bubblelobby.listener;
 
-import com.thebubblenetwork.api.event.PlayerDataReceivedEvent;
+import com.thebubblenetwork.api.framework.event.PlayerDataReceivedEvent;
 import com.thebubblenetwork.api.framework.player.BukkitBubblePlayer;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
 import com.thebubblenetwork.api.global.player.BubblePlayer;
@@ -42,10 +42,11 @@ import java.util.UUID;
  */
 public class LobbyListener implements Listener {
 
-    protected static final int COMPASSSLOT = 0, COSMETICSLOT = 8;
+    protected static final int COMPASSSLOT = 0, LOBBYSELECTORSLOT = 1, COSMETICSLOT = 8;
 
     private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS).withAmount(1).withName(ChatColor.AQUA + "Compass").withLore(ChatColor.GRAY + "Click to open up the server-menu!");
     private ItemStackBuilder cosmetics = new ItemStackBuilder(Material.BLAZE_POWDER).withName(ChatColor.AQUA + "Cosmetics").withLore(ChatColor.GRAY + "Click to open the cosmetics menu");
+    private ItemStackBuilder lobbies = new ItemStackBuilder(Material.WATCH).withName(ChatColor.AQUA + "Lobby Selector").withLore(ChatColor.GRAY + "Click to open the lobby selector");
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
@@ -103,6 +104,7 @@ public class LobbyListener implements Listener {
     public ItemStack[] generateInventory() {
         ItemStack[] is = new ItemStack[4 * 9];
         is[COMPASSSLOT] = compass.build();
+        is[LOBBYSELECTORSLOT] = lobbies.build();
         is[COSMETICSLOT] = cosmetics.build();
         return is;
     }
@@ -177,6 +179,9 @@ public class LobbyListener implements Listener {
             }
             else if(slot == COSMETICSLOT){
                 BubbleLobby.getInstance().getManager().unsafe().create().openMenu(e.getPlayer());
+            }
+            else if (slot == LOBBYSELECTORSLOT) {
+                BubbleLobby.getInstance().getLobbySelector().show(e.getPlayer());
             }
         }
     }
