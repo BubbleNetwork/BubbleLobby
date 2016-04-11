@@ -117,7 +117,6 @@ public class BubbleLobby extends BubbleAddon {
         w = new WorldCreator(lobbyfile.getName()).generateStructures(false).generator(VoidWorldGenerator.getGenerator()).createWorld();
 
         Set<CompassItem> items = new HashSet<>();
-
         try {
             if (!SQLUtil.tableExists(network.getConnection(), "compass_items")) {
                 getNetwork().getLogger().log(Level.INFO, "Creating compass-item DB");
@@ -159,12 +158,20 @@ public class BubbleLobby extends BubbleAddon {
         compass = new LobbyCompass(items);
         lobbySelector = new LobbySelector();
 
-        //generate the lobbies
-        lobbySelector.setLobbies(lobbySelector.getLobbies());
-
         registerListener(getListener());
 
         GiveGadgetCommand.register();
+
+        Collection<LobbyItem> lobbyItems = new ArrayList<>();
+
+        //get lobbies list
+        for (ServerType type : ServerType.getTypes()) {
+            if (type == ServerType.getType("Lobby")) {
+                lobbyItems.add(new LobbyItem(1, 1));
+            }
+        }
+
+        lobbySelector.setLobbies(lobbyItems);
 
         manager = new CosmeticsManager(getNetwork());
         manager.download();
