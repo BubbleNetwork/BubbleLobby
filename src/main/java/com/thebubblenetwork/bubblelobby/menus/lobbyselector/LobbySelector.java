@@ -24,7 +24,7 @@ public class LobbySelector extends Menu {
     private final List<LobbyItem> lobbies = new ArrayList<>();
 
     public LobbySelector() {
-        super(ChatColor.AQUA + "Lobby Menu", 9);
+        super(ChatColor.AQUA + "Lobby Selector", 54);
         BubbleNetwork.getInstance().registerMenu(BubbleLobby.getInstance(), this);
     }
 
@@ -50,7 +50,7 @@ public class LobbySelector extends Menu {
                 return o1.getId() - o2.getId();
             }
         });
-        this.inventory = Bukkit.createInventory(this, getRoundedInventorySize(lobbies.size()), ChatColor.AQUA + "Lobby Menu");
+        this.inventory = Bukkit.createInventory(this, getRoundedInventorySize(lobbies.size()), ChatColor.AQUA + "Lobby Selector");
         update();
     }
 
@@ -62,5 +62,9 @@ public class LobbySelector extends Menu {
             i++;
         }
         return stack;
+    }
+
+    public List<LobbyItem> getLobbies() {
+        return lobbies;
     }
 }

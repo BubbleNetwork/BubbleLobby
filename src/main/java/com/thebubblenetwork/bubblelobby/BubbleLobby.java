@@ -18,6 +18,7 @@ import com.thebubblenetwork.api.global.type.ServerType;
 import com.thebubblenetwork.bubblelobby.listener.LobbyListener;
 import com.thebubblenetwork.bubblelobby.menus.compass.CompassItem;
 import com.thebubblenetwork.bubblelobby.menus.compass.LobbyCompass;
+import com.thebubblenetwork.bubblelobby.menus.lobbyselector.LobbyItem;
 import com.thebubblenetwork.bubblelobby.menus.lobbyselector.LobbySelector;
 import com.thebubblenetwork.bubblelobby.ultracosmetics.GiveGadgetCommand;
 import org.bukkit.Bukkit;
@@ -29,10 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.AbstractMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 
 /**
@@ -160,6 +158,9 @@ public class BubbleLobby extends BubbleAddon {
 
         compass = new LobbyCompass(items);
         lobbySelector = new LobbySelector();
+
+        //generate the lobbies
+        lobbySelector.setLobbies(lobbySelector.getLobbies());
 
         registerListener(getListener());
 
