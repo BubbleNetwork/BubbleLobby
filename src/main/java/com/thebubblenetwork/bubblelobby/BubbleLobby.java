@@ -81,6 +81,7 @@ public class BubbleLobby extends BubbleAddon {
         listener = new LobbyListener();
 
         runnable = new AsyncLobbyRunnable(this);
+        runnable.run();
 
         try {
             SSLUtil.allowAnySSL();
@@ -184,6 +185,7 @@ public class BubbleLobby extends BubbleAddon {
                     getNetwork().getLogger().log(Level.WARNING, "Error setting joinable", e);
                     getNetwork().endSetup("Could not set joinable");
                 }
+                runnable.run();
             }
         }.runTaskAsynchonrously(this);
     }
