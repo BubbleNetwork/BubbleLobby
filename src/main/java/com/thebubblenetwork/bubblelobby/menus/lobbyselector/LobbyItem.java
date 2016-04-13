@@ -1,6 +1,7 @@
 package com.thebubblenetwork.bubblelobby.menus.lobbyselector;
 
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
+import com.thebubblenetwork.api.global.bubblepackets.messaging.messages.response.ServerListResponse;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -17,30 +18,27 @@ import java.util.List;
  * Created February 2016
  */
 public class LobbyItem {
-    private int online, id;
+    private ServerListResponse.EncapsulatedServer server;
 
-    public LobbyItem(int online, int id) {
-        this.online = online;
-        this.id = id;
+    public LobbyItem(ServerListResponse.EncapsulatedServer server) {
+        this.server = server;
     }
 
     public int getOnline() {
-        if (!isOnline()) {
-            return 0;
-        }
-        return online;
+        return server.isConnect() ? server.getPlayercount() : 0;
     }
 
     public boolean isOnline() {
-        return this.online != -1;
+        return server.isConnect();
     }
 
     public int getId() {
-        return id;
+        return server.getId();
     }
 
     public ItemStack getItem() {
         ItemStackBuilder builder = new ItemStackBuilder(Material.WOOL);
+        builder.withName(ChatColor.AQUA + "Lobby #" + getId());
         DyeColor color;
         List<String> lore;
         if (isOnline()) {

@@ -20,6 +20,7 @@ import com.thebubblenetwork.bubblelobby.menus.compass.CompassItem;
 import com.thebubblenetwork.bubblelobby.menus.compass.LobbyCompass;
 import com.thebubblenetwork.bubblelobby.menus.lobbyselector.LobbyItem;
 import com.thebubblenetwork.bubblelobby.menus.lobbyselector.LobbySelector;
+import com.thebubblenetwork.bubblelobby.runnable.AsyncLobbyRunnable;
 import com.thebubblenetwork.bubblelobby.ultracosmetics.GiveGadgetCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -68,6 +69,7 @@ public class BubbleLobby extends BubbleAddon {
     private CosmeticsManager manager;
     private World w;
     private LocationObject spawn = new LocationObject(0.5, 116, 0.5, 0F, 90F);
+    private AsyncLobbyRunnable runnable;
 
     public void onLoad() {
         network = BubbleNetwork.getInstance();
@@ -77,6 +79,8 @@ public class BubbleLobby extends BubbleAddon {
         setInstance(this);
 
         listener = new LobbyListener();
+
+        runnable = new AsyncLobbyRunnable(this);
 
         try {
             SSLUtil.allowAnySSL();
@@ -164,13 +168,6 @@ public class BubbleLobby extends BubbleAddon {
 
         Collection<LobbyItem> lobbyItems = new ArrayList<>();
 
-        //get lobbies list
-        for (ServerType type : ServerType.getTypes()) {
-            if (type == ServerType.getType("Lobby")) {
-                lobbyItems.add(new LobbyItem(1, 1));
-            }
-        }
-
         lobbySelector.setLobbies(lobbyItems);
 
         manager = new CosmeticsManager(getNetwork());
@@ -216,6 +213,8 @@ public class BubbleLobby extends BubbleAddon {
 
         GiveGadgetCommand.unregister();
 
+        getNetwork().getPacketHub().unregisterListener(getListener());
+
         manager.clearUp();
         listener = null;
         network = null;
@@ -259,6 +258,10 @@ public class BubbleLobby extends BubbleAddon {
 
     public int getVersion() {
         return 0;
+    }
+
+    public AsyncLobbyRunnable getRunnable() {
+        return runnable;
     }
 
     public long finishUp() {

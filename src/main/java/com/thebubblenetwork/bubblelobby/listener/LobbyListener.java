@@ -4,9 +4,16 @@ import com.thebubblenetwork.api.framework.event.PlayerDataReceivedEvent;
 import com.thebubblenetwork.api.framework.player.BukkitBubblePlayer;
 import com.thebubblenetwork.api.framework.plugin.util.BubbleRunnable;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
+import com.thebubblenetwork.api.global.bubblepackets.PacketInfo;
+import com.thebubblenetwork.api.global.bubblepackets.PacketListener;
+import com.thebubblenetwork.api.global.bubblepackets.messaging.IPluginMessage;
+import com.thebubblenetwork.api.global.bubblepackets.messaging.messages.response.ServerListResponse;
 import com.thebubblenetwork.api.global.player.BubblePlayer;
 import com.thebubblenetwork.api.global.ranks.Rank;
 import com.thebubblenetwork.bubblelobby.BubbleLobby;
+import com.thebubblenetwork.bubblelobby.menus.compass.CompassItem;
+import com.thebubblenetwork.bubblelobby.menus.compass.LobbyCompass;
+import com.thebubblenetwork.bubblelobby.menus.lobbyselector.LobbyItem;
 import com.thebubblenetwork.bubblelobby.scoreboard.LobbyScoreboard;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -24,6 +31,9 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Team;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -41,7 +51,7 @@ import java.util.UUID;
  * Date-created: 10/01/2016 19:58
  * Project: BubbleLobby
  */
-public class LobbyListener implements Listener {
+public class LobbyListener implements Listener,PacketListener {
 
     protected static final int COMPASSSLOT = 0, LOBBYSELECTORSLOT = 1, COSMETICSLOT = 8;
 
@@ -193,8 +203,8 @@ public class LobbyListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDataReceive(PlayerDataReceivedEvent e){
-        LobbyScoreboard board = LobbyScoreboard.getBoard(e.getPlayer().getUniqueId());
+    public void onPlayerDataReceive(final PlayerDataReceivedEvent e){
+        final LobbyScoreboard board = LobbyScoreboard.getBoard(e.getPlayer().getUniqueId());
         new BubbleRunnable(){
             public void run() {
                 if(e.getPlayer().isOnline() && board.getCurrentpreset() != null)board.getCurrentpreset().onEnable(board);
@@ -208,5 +218,27 @@ public class LobbyListener implements Listener {
                 othersb.applyRank(after, e.getPlayer());
             }
         }
+    }
+
+    @Override
+    public void onMessage(PacketInfo packetInfo, IPluginMessage iPluginMessage) {
+        if(iPluginMessage instanceof ServerListResponse){
+            ServerListResponse response = (ServerListResponse)iPluginMessage;
+            Set<LobbyItem> items = new HashSet<>();
+            for(ServerListResponse.EncapsulatedServer server: response.getServerList()){
+                items.add(new LobbyItem(server));
+            }
+            BubbleLobby.getInstance().getLobbySelector().setLobbies(items);
+        }
+    }
+
+    @Override
+    public void onConnect(PacketInfo packetInfo) {
+
+    }
+
+    @Override
+    public void onDisconnect(PacketInfo packetInfo) {
+
     }
 }
