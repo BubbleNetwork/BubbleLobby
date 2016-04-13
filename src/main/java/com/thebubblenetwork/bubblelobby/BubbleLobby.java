@@ -215,8 +215,6 @@ public class BubbleLobby extends BubbleAddon {
 
         GiveGadgetCommand.unregister();
 
-        getNetwork().getPacketHub().unregisterListener(getListener());
-
         manager.clearUp();
         listener = null;
         network = null;

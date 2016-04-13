@@ -1,6 +1,7 @@
 package com.thebubblenetwork.bubblelobby.listener;
 
 import com.thebubblenetwork.api.framework.event.PlayerDataReceivedEvent;
+import com.thebubblenetwork.api.framework.event.ServerListUpdateEvent;
 import com.thebubblenetwork.api.framework.player.BukkitBubblePlayer;
 import com.thebubblenetwork.api.framework.plugin.util.BubbleRunnable;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
@@ -51,7 +52,7 @@ import java.util.UUID;
  * Date-created: 10/01/2016 19:58
  * Project: BubbleLobby
  */
-public class LobbyListener implements Listener,PacketListener {
+public class LobbyListener implements Listener {
 
     protected static final int COMPASSSLOT = 0, LOBBYSELECTORSLOT = 1, COSMETICSLOT = 8;
 
@@ -220,25 +221,14 @@ public class LobbyListener implements Listener,PacketListener {
         }
     }
 
-    @Override
-    public void onMessage(PacketInfo packetInfo, IPluginMessage iPluginMessage) {
-        if(iPluginMessage instanceof ServerListResponse){
-            ServerListResponse response = (ServerListResponse)iPluginMessage;
+    @EventHandler
+    public void onServerListReceive(ServerListUpdateEvent e){
+        if(e.getType().getName().equals("Lobby")){
             Set<LobbyItem> items = new HashSet<>();
-            for(ServerListResponse.EncapsulatedServer server: response.getServerList()){
+            for(ServerListResponse.EncapsulatedServer server: e.getServers()){
                 items.add(new LobbyItem(server));
             }
             BubbleLobby.getInstance().getLobbySelector().setLobbies(items);
         }
-    }
-
-    @Override
-    public void onConnect(PacketInfo packetInfo) {
-
-    }
-
-    @Override
-    public void onDisconnect(PacketInfo packetInfo) {
-
     }
 }
