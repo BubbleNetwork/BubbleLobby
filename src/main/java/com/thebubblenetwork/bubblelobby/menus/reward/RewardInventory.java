@@ -100,7 +100,7 @@ public class RewardInventory extends Menu{
                 }
                 else{
                     player.playSound(player.getLocation(), Sound.BLAZE_HIT, 1f, 1f);
-                    player.sendMessage(ChatColor.BLUE + "You need to wait " + ChatColor.AQUA + this.player.getWaitTime(item.getName(), item.getTime()) + ChatColor.BLUE + " till you can use this");
+                    player.sendMessage(ChatColor.BLUE + "You need to wait " + ChatColor.AQUA + this.player.getWaitTime(item.getBlankname(), item.getTime()) + ChatColor.BLUE + " till you can use this");
                 }
             }
             else{
