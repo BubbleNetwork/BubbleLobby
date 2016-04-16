@@ -5,16 +5,12 @@ import com.thebubblenetwork.api.framework.event.ServerListUpdateEvent;
 import com.thebubblenetwork.api.framework.player.BukkitBubblePlayer;
 import com.thebubblenetwork.api.framework.plugin.util.BubbleRunnable;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
-import com.thebubblenetwork.api.global.bubblepackets.PacketInfo;
-import com.thebubblenetwork.api.global.bubblepackets.PacketListener;
-import com.thebubblenetwork.api.global.bubblepackets.messaging.IPluginMessage;
 import com.thebubblenetwork.api.global.bubblepackets.messaging.messages.response.ServerListResponse;
 import com.thebubblenetwork.api.global.player.BubblePlayer;
 import com.thebubblenetwork.api.global.ranks.Rank;
 import com.thebubblenetwork.bubblelobby.BubbleLobby;
-import com.thebubblenetwork.bubblelobby.menus.compass.CompassItem;
-import com.thebubblenetwork.bubblelobby.menus.compass.LobbyCompass;
 import com.thebubblenetwork.bubblelobby.menus.lobbyselector.LobbyItem;
+import com.thebubblenetwork.bubblelobby.menus.reward.RewardInventory;
 import com.thebubblenetwork.bubblelobby.scoreboard.LobbyScoreboard;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -32,7 +28,6 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.Team;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -54,11 +49,12 @@ import java.util.UUID;
  */
 public class LobbyListener implements Listener {
 
-    protected static final int COMPASSSLOT = 0, LOBBYSELECTORSLOT = 1, COSMETICSLOT = 8;
+    protected static final int COMPASSSLOT = 0, LOBBYSELECTORSLOT = 1, REWARDSLOT = 3, COSMETICSLOT = 8;
 
     private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS).withAmount(1).withName(ChatColor.AQUA + "Compass").withLore(ChatColor.GRAY + "Click to open up the server menu!");
     private ItemStackBuilder cosmetics = new ItemStackBuilder(Material.BLAZE_POWDER).withName(ChatColor.AQUA + "Cosmetics").withLore(ChatColor.GRAY + "Click to open the cosmetics menu");
     private ItemStackBuilder lobbies = new ItemStackBuilder(Material.WATCH).withName(ChatColor.AQUA + "Lobby Selector").withLore(ChatColor.GRAY + "Click to open the lobby selector");
+    private ItemStackBuilder rewards = new ItemStackBuilder(Material.EMERALD).withName(ChatColor.AQUA + "Rewards").withLore(ChatColor.GRAY + "Click to open the rewards menu");
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
@@ -78,12 +74,13 @@ public class LobbyListener implements Listener {
                 if(p.isOnline()) {
                     BukkitBubblePlayer player = BukkitBubblePlayer.getObject(u);
                     if (player != null) {
+                        player.setSpectating(false);
                         for(LobbyScoreboard other:LobbyScoreboard.getBoards()){
                             other.applyRank(player.getRank(),p);
                         }
-                    }
-                    for(BubblePlayer other:BukkitBubblePlayer.getPlayerObjectMap().values()){
-                        scoreboard.applyRank(other.getRank(),(Player)other.getPlayer());
+                        for(BubblePlayer other:BukkitBubblePlayer.getPlayerObjectMap().values()){
+                            scoreboard.applyRank(other.getRank(),(Player)other.getPlayer());
+                        }
                     }
                 }
             }
@@ -101,6 +98,7 @@ public class LobbyListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         final Player p = e.getPlayer();
         LobbyScoreboard.removeBoard(p.getUniqueId());
+        RewardInventory.removeInventory(p);
         new Thread(){
             @Override
             public void run(){
@@ -118,6 +116,7 @@ public class LobbyListener implements Listener {
         is[COMPASSSLOT] = compass.build();
         is[LOBBYSELECTORSLOT] = lobbies.build();
         is[COSMETICSLOT] = cosmetics.build();
+        is[REWARDSLOT] = rewards.build();
         return is;
     }
 
@@ -194,6 +193,9 @@ public class LobbyListener implements Listener {
             }
             else if (slot == LOBBYSELECTORSLOT) {
                 BubbleLobby.getInstance().getLobbySelector().show(e.getPlayer());
+            }
+            else if(slot == REWARDSLOT){
+                RewardInventory.getInventory(e.getPlayer()).show(e.getPlayer());
             }
         }
     }
