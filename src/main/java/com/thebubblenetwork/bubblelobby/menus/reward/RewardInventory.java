@@ -31,7 +31,7 @@ public class RewardInventory extends Menu{
                     bubblePlayer.setTokens(bubblePlayer.getTokens() + 100);
                 }
             },
-            new RewardItem("Weekly Tokens","weeklydonator", TimeUnit.DAYS.toMillis(1), "You need a donator rank to redeem this", new String[]{"Get a huge weekly token package"}){
+            new RewardItem("Weekly Tokens","weeklydonator", TimeUnit.DAYS.toMillis(7), "You need a donator rank to redeem this", new String[]{"A huge weekly token package"}){
                 public void giveReward(BukkitBubblePlayer bubblePlayer, Player player) {
                     super.giveReward(bubblePlayer, player);
                     player.sendMessage(ChatColor.GOLD + "+2000 Tokens");
@@ -96,6 +96,7 @@ public class RewardInventory extends Menu{
                     player.playSound(player.getLocation(), Sound.LEVEL_UP, 1f, 1f);
                     item.use(this.player);
                     item.giveReward(this.player, player);
+                    update();
                 }
                 else{
                     player.playSound(player.getLocation(), Sound.BLAZE_HIT, 1f, 1f);
@@ -122,7 +123,7 @@ public class RewardInventory extends Menu{
                 }
                 else{
                     builder.withType(Material.WATCH);
-                    builder.withName(ChatColor.RED + "Wait " + player.getWaitTime(item.getName(), item.getTime()));
+                    builder.withName(ChatColor.RED + "Wait " + player.getWaitTime(item.getBlankname(), item.getTime()));
                 }
             }
             else{
