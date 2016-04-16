@@ -1,5 +1,6 @@
 package com.thebubblenetwork.bubblelobby.menus.reward;
 
+import com.thebubblenetwork.api.framework.BubbleNetwork;
 import com.thebubblenetwork.api.framework.player.BukkitBubblePlayer;
 import com.thebubblenetwork.api.framework.plugin.util.BubbleRunnable;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
@@ -64,10 +65,16 @@ public class RewardInventory extends Menu{
     }
 
     public static void removeInventory(Player p){
-        inventoryMap.remove(p.getUniqueId());
+        RewardInventory inventory = inventoryMap.remove(p.getUniqueId());
+        if(inventory != null){
+            BubbleNetwork.getInstance().unregisterMenu(inventory);
+        }
     }
 
     public static void removeAll(){
+        for(RewardInventory inventory: inventoryMap.values()){
+            BubbleNetwork.getInstance().unregisterMenu(inventory);
+        }
         inventoryMap.clear();
     }
 
@@ -76,6 +83,7 @@ public class RewardInventory extends Menu{
     public RewardInventory(BukkitBubblePlayer player) {
         super(ChatColor.GREEN + "Rewards", getRoundedInventorySize(itemList.size()));
         this.player = player;
+        BubbleNetwork.getInstance().registerMenu(BubbleLobby.getInstance(), this);
         update();
     }
 
@@ -85,10 +93,12 @@ public class RewardInventory extends Menu{
             RewardItem item = itemList.get(i);
             if(item.hasPermission(this.player)){
                 if(item.canUseReward(this.player)){
+                    player.playSound(player.getLocation(), Sound.LEVEL_UP, 1f, 1f);
                     item.use(this.player);
                     item.giveReward(this.player, player);
                 }
                 else{
+                    player.playSound(player.getLocation(), Sound.BLAZE_HIT, 1f, 1f);
                     player.sendMessage(ChatColor.BLUE + "You need to wait " + ChatColor.AQUA + this.player.getWaitTime(item.getName(), item.getTime()) + ChatColor.BLUE + " till you can use this");
                 }
             }
