@@ -49,7 +49,7 @@ import java.util.UUID;
  */
 public class LobbyListener implements Listener {
 
-    protected static final int COMPASSSLOT = 0, LOBBYSELECTORSLOT = 1, REWARDSLOT = 3, COSMETICSLOT = 8;
+    protected static final int COMPASSSLOT = 0, LOBBYSELECTORSLOT = 1, REWARDSLOT = 2, COSMETICSLOT = 8;
 
     private ItemStackBuilder compass = new ItemStackBuilder(Material.COMPASS).withAmount(1).withName(ChatColor.AQUA + "Compass").withLore(ChatColor.GRAY + "Click to open up the server menu!");
     private ItemStackBuilder cosmetics = new ItemStackBuilder(Material.BLAZE_POWDER).withName(ChatColor.AQUA + "Cosmetics").withLore(ChatColor.GRAY + "Click to open the cosmetics menu");

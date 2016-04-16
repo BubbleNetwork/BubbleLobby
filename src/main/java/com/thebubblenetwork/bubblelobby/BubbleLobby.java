@@ -20,6 +20,7 @@ import com.thebubblenetwork.bubblelobby.menus.compass.CompassItem;
 import com.thebubblenetwork.bubblelobby.menus.compass.LobbyCompass;
 import com.thebubblenetwork.bubblelobby.menus.lobbyselector.LobbyItem;
 import com.thebubblenetwork.bubblelobby.menus.lobbyselector.LobbySelector;
+import com.thebubblenetwork.bubblelobby.menus.reward.RewardInventory;
 import com.thebubblenetwork.bubblelobby.runnable.AsyncLobbyRunnable;
 import com.thebubblenetwork.bubblelobby.ultracosmetics.GiveGadgetCommand;
 import org.bukkit.Bukkit;
@@ -188,6 +189,8 @@ public class BubbleLobby extends BubbleAddon {
                 runnable.run();
             }
         }.runTaskAsynchonrously(this);
+
+        RewardInventory.startRunnable();
     }
 
     public void onDisable() {

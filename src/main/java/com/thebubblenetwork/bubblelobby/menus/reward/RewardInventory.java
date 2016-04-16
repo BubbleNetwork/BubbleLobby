@@ -1,8 +1,10 @@
 package com.thebubblenetwork.bubblelobby.menus.reward;
 
 import com.thebubblenetwork.api.framework.player.BukkitBubblePlayer;
+import com.thebubblenetwork.api.framework.plugin.util.BubbleRunnable;
 import com.thebubblenetwork.api.framework.util.mc.items.ItemStackBuilder;
 import com.thebubblenetwork.api.framework.util.mc.menu.Menu;
+import com.thebubblenetwork.bubblelobby.BubbleLobby;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -41,6 +43,17 @@ public class RewardInventory extends Menu{
 
     private static Map<UUID, RewardInventory> inventoryMap = new HashMap<>();
 
+    public static void startRunnable(){
+        new BubbleRunnable(){
+            @Override
+            public void run() {
+                for(RewardInventory inventory: inventoryMap.values()){
+                    inventory.update();
+                }
+            }
+        }.runTaskTimerAsynchronously(BubbleLobby.getInstance(), TimeUnit.SECONDS, 30);
+    }
+
     public static RewardInventory getInventory(Player p){
         if(inventoryMap.containsKey(p.getUniqueId())){
             return inventoryMap.get(p.getUniqueId());
@@ -63,6 +76,7 @@ public class RewardInventory extends Menu{
     public RewardInventory(BukkitBubblePlayer player) {
         super(ChatColor.GREEN + "Rewards", getRoundedInventorySize(itemList.size()));
         this.player = player;
+        update();
     }
 
     @Override
@@ -112,5 +126,10 @@ public class RewardInventory extends Menu{
             i++;
         }
         return itemStacks;
+    }
+
+    @Override
+    public void show(Player player) {
+        super.show(player);
     }
 }
