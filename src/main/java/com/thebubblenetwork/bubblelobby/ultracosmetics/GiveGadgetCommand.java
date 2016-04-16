@@ -73,17 +73,14 @@ public class GiveGadgetCommand extends Command{
         BukkitBubblePlayer player = BukkitBubblePlayer.getObject(Bukkit.getPlayer(strings[0]).getUniqueId());
         String gadget = strings[1].replace("ultracosmetics.","");
         String split[] = gadget.split("\\.");
-        String gadgetname = split[split.length-1];
         if(player.getHubItemUsable(gadget)){
             int random = BubbleNetwork.getRandom().nextInt(100)+ 100;
-            player.getPlayer().sendMessage(BubbleNetwork.getPrefix() + "You already have " + ChatColor.BLUE + gadgetname + ChatColor.RESET + " Giving " + ChatColor.BLUE + random + ChatColor.RESET + " Tokens");
+            player.getPlayer().sendMessage(BubbleNetwork.getPrefix() + "You already this! Giving " + ChatColor.BLUE + random + ChatColor.RESET + " Tokens");
             player.setTokens(player.getTokens() + random);
         }
         else{
-            player.getPlayer().sendMessage(BubbleNetwork.getPrefix() + "You got " + ChatColor.BLUE + gadgetname);
             player.setHubItemUsable(gadget, true);
         }
-
         return false;
     }
 }
