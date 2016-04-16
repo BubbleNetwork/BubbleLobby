@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * The Bubble Network 2016
@@ -21,7 +22,7 @@ import java.util.*;
  * Created February 2016
  */
 public class LobbySelector extends Menu {
-    private final List<LobbyItem> lobbies = new ArrayList<>();
+    private List<LobbyItem> lobbies = new ArrayList<>();
 
     public LobbySelector() {
         super(ChatColor.AQUA + "Lobby Selector", 54);
@@ -31,7 +32,10 @@ public class LobbySelector extends Menu {
     public void click(Player player, ClickType clickType, int i, ItemStack itemStack) {
         if (i < lobbies.size()) {
             LobbyItem l = lobbies.get(i);
-            if (l.isOnline()) {
+            if(l.getId() == BubbleNetwork.getInstance().getId()){
+                player.sendMessage(ChatColor.BLUE + "Already connected to this server");
+            }
+            else if (l.isOnline()) {
                 BubbleNetwork.getInstance().sendPlayer(player, ServerType.getType("Lobby").getPrefix() + l.getId());
             } else {
                 TextComponent c = new TextComponent("This lobby is offline!");
@@ -43,14 +47,13 @@ public class LobbySelector extends Menu {
     }
 
     public void setLobbies(Collection<LobbyItem> lobbies) {
-        this.lobbies.clear();
-        this.lobbies.addAll(lobbies);
+        this.lobbies = new ArrayList<>(lobbies);
         Collections.sort(this.lobbies, new Comparator<LobbyItem>() {
             public int compare(LobbyItem o1, LobbyItem o2) {
                 return o1.getId() - o2.getId();
             }
         });
-        this.inventory = Bukkit.createInventory(this, getRoundedInventorySize(lobbies.size()), ChatColor.AQUA + "Lobby Selector");
+        BubbleNetwork.getInstance().getLogger().log(Level.INFO, "{0} lobby servers were set in compass", lobbies.size());
         update();
     }
 
