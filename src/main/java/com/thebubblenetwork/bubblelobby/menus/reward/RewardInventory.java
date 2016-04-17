@@ -27,11 +27,25 @@ public class RewardInventory extends Menu{
             new RewardItem("Daily Tokens","daily", TimeUnit.DAYS.toMillis(1), null, new String[]{"Redeem tokens every day!"}){
                 public void giveReward(BukkitBubblePlayer bubblePlayer, Player player) {
                     super.giveReward(bubblePlayer, player);
-                    player.sendMessage(ChatColor.GOLD + "+100 Tokens");
-                    bubblePlayer.setTokens(bubblePlayer.getTokens() + 100);
+                    player.sendMessage(ChatColor.GOLD + "+50 Tokens");
+                    bubblePlayer.setTokens(bubblePlayer.getTokens() + 50);
                 }
             },
-            new RewardItem("Weekly Tokens","weeklydonator", TimeUnit.DAYS.toMillis(7), "You need a donator rank to redeem this", new String[]{"A huge weekly token package"}){
+            new RewardItem("Weekly Tokens","weekly", TimeUnit.DAYS.toMillis(1), null, new String[]{"Redeem tokens every week!"}){
+                public void giveReward(BukkitBubblePlayer bubblePlayer, Player player) {
+                    super.giveReward(bubblePlayer, player);
+                    player.sendMessage(ChatColor.GOLD + "+1000 Tokens");
+                    bubblePlayer.setTokens(bubblePlayer.getTokens() + 1000);
+                }
+            },
+            new RewardItem("Donator Daily Tokens","dailydonator", TimeUnit.DAYS.toMillis(7), "You need a donator rank to redeem this", new String[]{"A huge daily token package"}){
+                public void giveReward(BukkitBubblePlayer bubblePlayer, Player player) {
+                    super.giveReward(bubblePlayer, player);
+                    player.sendMessage(ChatColor.GOLD + "+200 Tokens");
+                    bubblePlayer.setTokens(bubblePlayer.getTokens() + 200);
+                }
+            },
+            new RewardItem("Donator Weekly Tokens","weeklydonator", TimeUnit.DAYS.toMillis(7), "You need a donator rank to redeem this", new String[]{"A huge weekly token package"}){
                 public void giveReward(BukkitBubblePlayer bubblePlayer, Player player) {
                     super.giveReward(bubblePlayer, player);
                     player.sendMessage(ChatColor.GOLD + "+2000 Tokens");
@@ -130,6 +144,7 @@ public class RewardInventory extends Menu{
                 builder.withType(Material.BARRIER);
                 builder.withName(ChatColor.DARK_RED + item.getDenymsg());
             }
+            builder.withLore("",ChatColor.AQUA + item.getName(), "");
             for(String s: item.getDescription()){
                 builder.withLore(ChatColor.GRAY + s);
             }
