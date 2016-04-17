@@ -69,7 +69,7 @@ public class BubbleLobby extends BubbleAddon {
     LobbySelector lobbySelector;
     private CosmeticsManager manager;
     private World w;
-    private LocationObject spawn = new LocationObject(0.5, 116, 0.5, 0F, 90F);
+    private LocationObject spawn = new LocationObject(0.5, 115, 0.5, 0F, 90F);
     private AsyncLobbyRunnable runnable;
 
     public void onLoad() {

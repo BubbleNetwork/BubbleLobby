@@ -31,14 +31,14 @@ public class RewardInventory extends Menu{
                     bubblePlayer.setTokens(bubblePlayer.getTokens() + 50);
                 }
             },
-            new RewardItem("Weekly Tokens","weekly", TimeUnit.DAYS.toMillis(1), null, new String[]{"Redeem tokens every week!"}){
+            new RewardItem("Weekly Tokens","weekly", TimeUnit.DAYS.toMillis(7), null, new String[]{"Redeem tokens every week!"}){
                 public void giveReward(BukkitBubblePlayer bubblePlayer, Player player) {
                     super.giveReward(bubblePlayer, player);
                     player.sendMessage(ChatColor.GOLD + "+1000 Tokens");
                     bubblePlayer.setTokens(bubblePlayer.getTokens() + 1000);
                 }
             },
-            new RewardItem("Donator Daily Tokens","dailydonator", TimeUnit.DAYS.toMillis(7), "You need a donator rank to redeem this", new String[]{"A huge daily token package"}){
+            new RewardItem("Donator Daily Tokens","dailydonator", TimeUnit.DAYS.toMillis(1), "You need a donator rank to redeem this", new String[]{"A huge daily token package"}){
                 public void giveReward(BukkitBubblePlayer bubblePlayer, Player player) {
                     super.giveReward(bubblePlayer, player);
                     player.sendMessage(ChatColor.GOLD + "+200 Tokens");
